@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚀 SPlusPy
+# SPlusPy
 
 ### کتابخانه پایتون برای تعامل با سروش پلاس
 
@@ -13,7 +13,7 @@
 
 ---
 
-## 🇮🇷 فارسی
+## فارسی
 
 ### SPlusPy چیه؟
 
@@ -21,7 +21,7 @@
 
 این کتابخانه از [Telethon](https://github.com/LonamiWebs/Telethon) fork شده و به طور اختصاصی برای اکوسیستم سروش پلاس سفارشی‌سازی شده با پشتیبانی از MTProto بومی، WebSocket transport و Layer 182.
 
-### ✨ چرا SPlusPy؟
+### چرا SPlusPy؟
 
 - **بدون نیاز به API Key** — کتابخانه خودش credentialهای سروش پلاس رو داره
 - **کاملاً Asynchronous** — با `asyncio` پایتون
@@ -31,14 +31,20 @@
 - **API مکالمه** — برای ربات‌های تعاملی
 - **ورود با QR کد و شماره تلفن** — انعطاف‌پذیر
 - **محدودیت نرخ و تلاش خودکار** — جلوگیری از بن شدن
+- **سرعت بالا** — بهینه‌سازی شده با رمزنگاری سریع و صف‌های بهینه
 
-### 📦 نصب
+### نصب
 
 ```bash
 pip install -U splusthon
 ```
 
-### 🚀 شروع سریع
+برای سرعت بیشتر در رمزنگاری:
+```bash
+pip install cryptg
+```
+
+### شروع سریع
 
 #### ساده‌ترین ربات
 
@@ -81,7 +87,7 @@ async def main():
 asyncio.run(main())
 ```
 
-### 🎯 انواع رویدادها
+### انواع رویدادها
 
 | رویداد | توضیح |
 |---|---|
@@ -95,7 +101,7 @@ asyncio.run(main())
 | `events.MessageRead` | رسید خواندن دریافت شد |
 | `events.Album` | آلبوم (گروه مدیا) دریافت شد |
 
-### 🎨 دکوراتورهای هندلر
+### دکوراتورهای هندلر
 
 | دکوراتور | معادل |
 |---|---|
@@ -108,7 +114,7 @@ asyncio.run(main())
 | `@client.on_message_deleted(...)` | `@client.on(events.MessageDeleted(...))` |
 | `@client.on_message_read(...)` | `@client.on(events.MessageRead(...))` |
 
-### 📨 متدهای پیام
+### متدهای پیام
 
 ```python
 # ارسال پیام
@@ -136,7 +142,87 @@ await client.forward_messages('destination', msg)
 await client.send_read_acknowledge(msg)
 ```
 
-### 🔘 دکمه‌ها و کیبوردها
+### ارسال فایل و رسانه
+
+```python
+# ارسال عکس
+await client.send_photo(chat, 'photo.jpg')
+await client.send_photo(chat, 'photo.jpg', caption='این عکسه!')
+
+# ارسال موزیک
+await client.send_audio(chat, 'song.mp3')
+await client.send_audio(chat, 'song.mp3', caption='آهنگ مورد علاقه')
+
+# ارسال ویس نوت
+await client.send_audio(chat, 'voice.ogg', voice_note=True)
+
+# ارسال ویدیو
+await client.send_video(chat, 'video.mp4')
+await client.send_video(chat, 'video.mp4', caption='این ویدیویه!')
+
+# ارسال ویدیو دایره‌ای
+await client.send_video(chat, 'round.mp4', video_note=True)
+
+# ارسال فایل/سند
+await client.send_document(chat, 'file.pdf')
+await client.send_document(chat, 'report.docx', caption='گزارش ماهانه')
+
+# ارسال فایل با پیشرفت آپلود
+def callback(current, total):
+    print(f'آپلود: {current}/{total}')
+
+await client.send_file(chat, 'big_file.zip', progress_callback=callback)
+```
+
+### مدیریت چت (بن، کیک، پین)
+
+```python
+# بن کردن کاربر
+await client.ban_chat_member(chat, user)
+
+# بن موقت (۱ ساعت)
+from datetime import timedelta
+await client.ban_chat_member(chat, user, until_date=timedelta(hours=1))
+
+# بن ولی اجازه مشاهده پیام‌ها
+await client.ban_chat_member(chat, user, view_messages=False)
+
+# آنبان کردن کاربر
+await client.unban_chat_member(chat, user)
+
+# کیک کردن کاربر
+await client.kick_chat_member(chat, user)
+
+# پین کردن پیام
+await client.pin_message(chat, message)
+
+# پین با اطلاع‌رسانی
+await client.pin_message(chat, message, notify=True)
+
+# آنپین کردن پیام
+await client.unpin_message(chat, message)
+
+# آنپین همه پیام‌ها
+await client.unpin_all_messages(chat)
+```
+
+### مدیریت ادمین و دسترسی‌ها
+
+```python
+# ارتقاء به ادمین
+await client.edit_admin(chat, user, pin_messages=True)
+
+# تغییر دسترسی‌ها (محدود کردن)
+await client.edit_permissions(chat, user, send_messages=False)
+
+# حذف ادمین
+await client.edit_admin(chat, user, is_admin=False)
+
+# دریافت دسترسی‌ها
+permissions = await client.get_permissions(chat, user)
+```
+
+### دکمه‌ها و کیبوردها
 
 #### دکمه‌های اینلاین (زیر پیام)
 
@@ -153,7 +239,7 @@ Button.url('بازدید', 'https://example.com')
 Button.switch_inline('جستجو', 'query')
 ```
 
-#### کیборد ریپلای (جایگزین کیبورد کاربر)
+#### کیبورد ریپلای (جایگزین کیبورد کاربر)
 
 ```python
 # دکمه متن
@@ -169,7 +255,7 @@ Button.request_phone('اشتراک‌گذاری شماره')
 Button.clear()
 ```
 
-### 🔐 احراز هویت
+### احراز هویت
 
 ```python
 # ورود با تلفن (تعاملی)
@@ -187,7 +273,7 @@ await qr.wait()
 await client.edit_2fa(new_password='password', hint='راهنما')
 ```
 
-### 💬 API مکالمه
+### API مکالمه
 
 ```python
 async with client.conversation('user', timeout=60) as conv:
@@ -196,7 +282,7 @@ async with client.conversation('user', timeout=60) as conv:
     conv.send_message(f'سلام {response.text}!')
 ```
 
-### 📁 انواع Session
+### انواع Session
 
 | Session | توضیح |
 |---|---|
@@ -206,7 +292,7 @@ async with client.conversation('user', timeout=60) as conv:
 
 ---
 
-## 🇬🇧 English
+## English
 
 ### What is SPlusPy?
 
@@ -214,7 +300,7 @@ async with client.conversation('user', timeout=60) as conv:
 
 Built as a fork of [Telethon](https://github.com/LonamiWebs/Telethon), SPlusPy is adapted specifically for the Soroush Plus ecosystem with native MTProto, WebSocket transport, and Layer 182 support.
 
-### ✨ Why SPlusPy?
+### Why SPlusPy?
 
 - **No API Key Required** — Built-in Soroush Plus credentials
 - **Fully Asynchronous** — Built with Python's `asyncio`
@@ -224,14 +310,20 @@ Built as a fork of [Telethon](https://github.com/LonamiWebs/Telethon), SPlusPy i
 - **Conversation API** — For interactive bot flows
 - **QR Code & Phone Login** — Flexible authentication
 - **Rate Limiting & Auto-Retry** — Prevent account bans
+- **High Performance** — Optimized with fast encryption and efficient queues
 
-### 📦 Installation
+### Installation
 
 ```bash
 pip install -U splusthon
 ```
 
-### 🚀 Quick Start
+For faster encryption:
+```bash
+pip install cryptg
+```
+
+### Quick Start
 
 #### Simplest Bot
 
@@ -243,8 +335,8 @@ bot = SoroushClient('my_bot')
 
 @bot.on_message(incoming=True)
 async def handler(event):
-    if event.is_private and event.raw_text == 'سلام':
-        await event.reply('خوبی!')
+    if event.is_private and event.raw_text == 'Hello':
+        await event.reply('Hi!')
 
 async def main():
     await bot.start()
@@ -274,7 +366,7 @@ async def main():
 asyncio.run(main())
 ```
 
-### 🎯 Event Types
+### Event Types
 
 | Event | Description |
 |---|---|
@@ -288,7 +380,7 @@ asyncio.run(main())
 | `events.MessageRead` | Read receipt received |
 | `events.Album` | Grouped media (album) received |
 
-### 🎨 Handler Decorators
+### Handler Decorators
 
 | Decorator | Equivalent |
 |---|---|
@@ -301,7 +393,7 @@ asyncio.run(main())
 | `@client.on_message_deleted(...)` | `@client.on(events.MessageDeleted(...))` |
 | `@client.on_message_read(...)` | `@client.on(events.MessageRead(...))` |
 
-### 📨 Message Methods
+### Message Methods
 
 ```python
 # Send a message
@@ -329,7 +421,87 @@ await client.forward_messages('destination', msg)
 await client.send_read_acknowledge(msg)
 ```
 
-### 🔘 Buttons & Keyboards
+### Sending Files & Media
+
+```python
+# Send a photo
+await client.send_photo(chat, 'photo.jpg')
+await client.send_photo(chat, 'photo.jpg', caption='Check this out!')
+
+# Send audio/music
+await client.send_audio(chat, 'song.mp3')
+await client.send_audio(chat, 'song.mp3', caption='My favorite song')
+
+# Send voice note
+await client.send_audio(chat, 'voice.ogg', voice_note=True)
+
+# Send video
+await client.send_video(chat, 'video.mp4')
+await client.send_video(chat, 'video.mp4', caption='This is a video!')
+
+# Send round video
+await client.send_video(chat, 'round.mp4', video_note=True)
+
+# Send document
+await client.send_document(chat, 'file.pdf')
+await client.send_document(chat, 'report.docx', caption='Monthly report')
+
+# Send file with upload progress
+def callback(current, total):
+    print(f'Uploaded: {current}/{total}')
+
+await client.send_file(chat, 'big_file.zip', progress_callback=callback)
+```
+
+### Chat Management (Ban, Kick, Pin)
+
+```python
+# Ban a user
+await client.ban_chat_member(chat, user)
+
+# Temporary ban (1 hour)
+from datetime import timedelta
+await client.ban_chat_member(chat, user, until_date=timedelta(hours=1))
+
+# Ban but allow viewing messages
+await client.ban_chat_member(chat, user, view_messages=False)
+
+# Unban a user
+await client.unban_chat_member(chat, user)
+
+# Kick a user
+await client.kick_chat_member(chat, user)
+
+# Pin a message
+await client.pin_message(chat, message)
+
+# Pin with notification
+await client.pin_message(chat, message, notify=True)
+
+# Unpin a message
+await client.unpin_message(chat, message)
+
+# Unpin all messages
+await client.unpin_all_messages(chat)
+```
+
+### Admin & Permissions Management
+
+```python
+# Promote to admin
+await client.edit_admin(chat, user, pin_messages=True)
+
+# Edit permissions (restrict)
+await client.edit_permissions(chat, user, send_messages=False)
+
+# Remove admin
+await client.edit_admin(chat, user, is_admin=False)
+
+# Get permissions
+permissions = await client.get_permissions(chat, user)
+```
+
+### Buttons & Keyboards
 
 #### Inline Buttons (under message)
 
@@ -362,7 +534,7 @@ Button.request_phone('Share Phone')
 Button.clear()
 ```
 
-### 🔐 Authentication
+### Authentication
 
 ```python
 # Phone login (interactive)
@@ -380,7 +552,7 @@ await qr.wait()
 await client.edit_2fa(new_password='password', hint='hint')
 ```
 
-### 💬 Conversation API
+### Conversation API
 
 ```python
 async with client.conversation('user', timeout=60) as conv:
@@ -389,7 +561,7 @@ async with client.conversation('user', timeout=60) as conv:
     conv.send_message(f'Hello {response.text}!')
 ```
 
-### 📁 Session Types
+### Session Types
 
 | Session | Description |
 |---|---|
@@ -399,7 +571,7 @@ async with client.conversation('user', timeout=60) as conv:
 
 ---
 
-## 📚 More Resources
+## More Resources
 
 - [API Reference](https://tl.spluspy.dev/)
 - [Examples](spluspy_examples/)
@@ -407,18 +579,18 @@ async with client.conversation('user', timeout=60) as conv:
 
 ---
 
-## ⚠️ Disclaimer
+## Disclaimer
 
 SPlusPy is an unofficial third-party library. Use it responsibly and ensure your applications comply with Soroush Plus's Terms of Service. Improper use may result in account restrictions.
 
 ---
 
-## 📄 License
+## License
 
 SPlusPy is open-source software distributed under the [GPL-3.0 License](LICENSE).
 
 <div align="center">
 
-**Made with ❤️ for the Soroush Plus community**
+**Made with love for the Soroush Plus community**
 
 </div>
