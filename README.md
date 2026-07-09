@@ -22,7 +22,7 @@ Built as a fork of [Telethon](https://github.com/LonamiWebs/Telethon), SPlusPy i
 ## Installation
 
 ```bash
-pip install -U splusthon
+pip install -U Spluspy
 ```
 
 ## Quick Start
