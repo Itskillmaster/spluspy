@@ -47,9 +47,19 @@ Built from the ground up with clean architecture, it's designed to feel like [Te
 | **Scheduler** | Built-in task scheduler |
 | **Multiple Storage Backends** | Memory, SQLite, Redis, PostgreSQL |
 | **Rate Limiting** | Token bucket algorithm with flood wait handling |
+| **AFK Auto-Reply** | Smart auto-responder with per-chat rate limiting |
+| **Chat Administration** | Ban, mute, pin, purge — high-level admin API |
+| **Message Mirroring** | Real-time message cloning between chats |
+| **Batch Operations** | Send, delete, forward multiple messages at once |
+| **File Transfer with Progress** | Upload/download with progress tracking |
 | **Professional Logging** | Structured, namespaced loggers |
 | **Type Hints Everywhere** | Full type safety |
 | **Clean Architecture** | SOLID principles, modular design |
+
+### Requirements
+
+- Python 3.10+
+- No external API keys needed (built-in Soroush Plus credentials)
 
 ### Installation
 
@@ -254,9 +264,9 @@ async def process_form(client, message):
         await ctx.set_state(Form.age)
         await message.reply("How old are you?")
     elif state == Form.age:
-        await ctx.set_data(age=message.text)
+        data = await ctx.get_data()
         await ctx.reset()
-        await message.reply(f"Registered! Name: {(await ctx.get_data()).get('name')}")
+        await message.reply(f"Registered! Name: {data.get('name')}, Age: {message.text}")
 ```
 
 #### Advanced FSM: State Routing with Decorators
@@ -381,6 +391,94 @@ value = cache.get("key")
 stats = cache.stats()  # {'hits': 42, 'misses': 3}
 ```
 
+### AFK Auto-Reply
+
+```python
+from spluspy import Client, filters
+from spluspy.afk import AfkManager
+
+bot = Client("my_account")
+afk = AfkManager(bot, message="I'm currently AFK. Back soon!")
+
+@bot.on_message(filters.command("afk"))
+async def set_afk(client, message):
+    afk.set_afk(True, reason="Lunch break")
+    await message.reply("I'm now AFK!")
+
+@bot.on_message(filters.command("back"))
+async def unset_afk(client, message):
+    afk.set_afk(False)
+    await message.reply(f"Back! Sent {afk.total_replies} auto-replies.")
+
+@bot.on_message(filters.private & filters.incoming)
+async def auto_reply(client, message):
+    if afk.is_afk:
+        await afk.handle(message)
+```
+
+### Chat Administration
+
+```python
+from spluspy.admin import ChatAdmin
+
+admin = ChatAdmin(bot)
+
+await admin.ban_user(chat_id, user_id)
+await admin.unban_user(chat_id, user_id)
+await admin.mute_user(chat_id, user_id)
+await admin.unmute_user(chat_id, user_id)
+await admin.pin_message(chat_id, message)
+await admin.unpin_message(chat_id, message)
+await admin.unpin_all(chat_id)
+await admin.purge_messages(chat_id, limit=100)
+
+# Bulk actions
+await admin.bulk_action(chat_id, "ban", [user_id1, user_id2, user_id3])
+
+# Admin log
+events = await admin.get_admin_log(chat_id, limit=50)
+```
+
+### Message Mirroring
+
+```python
+from spluspy.mirror import MessageMirror
+
+mirror = MessageMirror(bot)
+
+# Add a mirroring route
+mirror.add_route(
+    source=-1001234567890,
+    targets=[-1009876543210, -1001112223334],
+    strip_forward=True,
+    strip_sender=False,
+    add_prefix="[Mirror]"
+)
+
+# Or build incrementally
+mirror.add_source(-1001234567890)
+mirror.add_target(-1009876543210)
+
+await mirror.start()
+```
+
+### Scheduler
+
+```python
+from spluspy.scheduler.scheduler import MessageScheduler
+
+scheduler = MessageScheduler(bot)
+
+# Send a message every hour
+scheduler.schedule_interval("hourly_greeting", chat_id, "Hello!", interval=3600)
+
+# Send a message after a delay
+scheduler.schedule_once("reminder", chat_id, "Don't forget!", delay=300)
+
+# Cancel a scheduled task
+scheduler.cancel("hourly_greeting")
+```
+
 ### Chat Management
 
 ```python
@@ -457,25 +555,46 @@ await message.download(progress=tracker)
 # Run a bot
 spluspy run bot.py
 
+# Run with custom session name
+spluspy run bot.py --session my_bot
+
 # Get session info
-spluspy session-info
+spluspy session-info my_session.session
 
 # Show version
 spluspy version
 
-# Validate session
-spluspy validate
+# Validate a bot script for syntax errors
+spluspy validate bot.py
 ```
 
 ### Docker
 
 ```dockerfile
 FROM python:3.12-slim
+
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install spluspy
-COPY . .
-CMD ["spluspy", "run", "bot.py"]
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install spluspy
+RUN pip install --no-cache-dir spluspy[all]
+
+# Copy your bot script
+COPY bot.py .
+
+# Run the bot
+CMD ["python", "bot.py"]
+```
+
+Build and run:
+
+```bash
+docker build -t my-spluspy-bot .
+docker run -v ./sessions:/app/sessions my-spluspy-bot
 ```
 
 ### Project Structure
@@ -487,8 +606,13 @@ spluspy/
 ├── cli.py               # CLI entry point
 ├── config.py            # Configuration
 ├── compat.py            # Compatibility layer
+├── afk.py               # AFK auto-responder
+├── admin.py             # Chat administration
+├── mirror.py            # Message mirroring engine
 ├── client/              # Client and conversation API
-├── types/               # Domain models (Message, User, Chat, Media, etc.)
+│   ├── client.py        # Main Client class
+│   └── conversation.py  # Conversation API
+├── models/              # Domain models (Message, User, Chat, Media, etc.)
 ├── events/              # Event types and builders
 ├── filters/             # Composable message filters
 ├── errors/              # Custom exception hierarchy
@@ -500,7 +624,34 @@ spluspy/
 ├── fsm/                 # Finite state machine
 ├── scheduler/           # Task scheduler
 ├── utils/               # Logger, cache, helpers
-└── sync/                # Synchronous client wrapper
+├── sync/                # Synchronous client wrapper
+└── _engine/             # Low-level MTProto engine
+```
+
+### Error Hierarchy
+
+```
+SplusPyError
+├── SoroushPlusAPIError
+│   ├── RPCError
+│   │   ├── FloodWait
+│   │   ├── Unauthorized
+│   │   ├── BadRequest
+│   │   │   ├── ChatNotFound
+│   │   │   ├── UserNotFound
+│   │   │   └── MessageNotFound
+│   │   └── ...
+│   ├── SessionExpiredError
+│   └── SessionError
+├── AuthError
+├── ValidationError
+├── JoinChatError
+│   ├── InvalidInviteLinkError
+│   ├── InviteLinkExpiredError
+│   ├── ChatFullError
+│   ├── ChatDeactivatedError
+│   └── MembershipRequiredError
+└── FloodWaitError (rate limiter)
 ```
 
 ---
@@ -525,9 +676,19 @@ spluspy/
 | **زمان‌بند (Scheduler)** | زمان‌بندی داخلی وظایف |
 | **بک‌اندهای ذخیره‌سازی متعدد** | حافظه، SQLite، Redis، PostgreSQL |
 | **محدودیت نرخ (Rate Limiting)** | الگوریتم سطل توکن با مدیریت انتظار سیلاب |
+| **پاسخ خودکار AFK** | پاسخگوی هوشمند با محدودیت نرخ به ازای هر چت |
+| **مدیریت چت** | مسدود کردن، بی‌صدا کردن، سنجاق، پاکسازی — API مدیریتی |
+| **آینه‌سازی پیام** | کلون کردن پیام و رسانه به صورت بلادرنگ بین چت‌ها |
+| **عملیات دسته‌ای** | ارسال، حذف، فوروارد چندین پیام به صورت همزمان |
+| **انتقال فایل با پیشرفت** | آپلود/دانلود با ردیابی پیشرفت |
 | **لاگ حرفه‌ای** | لاگرهای ساختاریافته و فضای نام‌دار |
 | **نوع‌نویسی در همه جا** | ایمنی کامل نوع |
 | **معماری تمیز** | اصول SOLID، طراحی ماژولار |
+
+### پیش‌نیازها
+
+- پایتون 3.10 به بالا
+- نیازی به کلید API خارجی نیست (کلیدهای سروش پلاس به صورت داخلی)
 
 ### نصب
 
@@ -732,9 +893,9 @@ async def process_form(client, message):
         await ctx.set_state(Form.age)
         await message.reply("سن شما چقدر است؟")
     elif state == Form.age:
-        await ctx.set_data(age=message.text)
+        data = await ctx.get_data()
         await ctx.reset()
-        await message.reply(f"ثبت شد! نام: {(await ctx.get_data()).get('name')}")
+        await message.reply(f"ثبت شد! نام: {data.get('name')}, سن: {message.text}")
 ```
 
 #### FSM پیشرفته: مسیریابی وضعیت با دکوراتور
@@ -854,22 +1015,97 @@ async def limited_handler(client, message):
 from spluspy.utils import LRUCache
 
 cache = LRUCache(maxsize=1000, ttl=300)  # TTL ۵ دقیقه‌ای
-cache.set("کلید", "مقدار")
-مقدار = cache.get("کلید")
-آمار = cache.stats()  # {'hits': 42, 'misses': 3}
+cache.set("key", "value")
+value = cache.get("key")
+stats = cache.stats()  # {'hits': 42, 'misses': 3}
+```
+
+### پاسخ خودکار AFK
+
+```python
+from spluspy import Client, filters
+from spluspy.afk import AfkManager
+
+bot = Client("my_account")
+afk = AfkManager(bot, message="الان AFK هستم. زود برمی‌گردم!")
+
+@bot.on_message(filters.command("afk"))
+async def set_afk(client, message):
+    afk.set_afk(True, reason="ناهار")
+    await message.reply("الان AFK هستم!")
+
+@bot.on_message(filters.command("back"))
+async def unset_afk(client, message):
+    afk.set_afk(False)
+    await message.reply(f"برگشتم! {afk.total_replies} پاسخ خودکار ارسال شد.")
+
+@bot.on_message(filters.private & filters.incoming)
+async def auto_reply(client, message):
+    if afk.is_afk:
+        await afk.handle(message)
 ```
 
 ### مدیریت چت
 
 ```python
-await bot.ban_user(chat_id, user_id)      # مسدود کردن
-await bot.unban_user(chat_id, user_id)    # رفع مسدودیت
-await bot.mute_user(chat_id, user_id)     # بی‌صدا کردن
-await bot.unmute_user(chat_id, user_id)   # رفع بی‌صدایی
-await bot.pin_message(chat_id, message)   # سنجاق کردن
-await bot.unpin_message(chat_id, message) # رفع سنجاق
-await bot.join_chat(chat_id)              # پیوستن به چت
-await bot.leave_chat(chat_id)             # ترک چت
+from spluspy.admin import ChatAdmin
+
+admin = ChatAdmin(bot)
+
+await admin.ban_user(chat_id, user_id)      # مسدود کردن
+await admin.unban_user(chat_id, user_id)    # رفع مسدودیت
+await admin.mute_user(chat_id, user_id)     # بی‌صدا کردن
+await admin.unmute_user(chat_id, user_id)   # رفع بی‌صدایی
+await admin.pin_message(chat_id, message)   # سنجاق کردن
+await admin.unpin_message(chat_id, message) # رفع سنجاق
+await admin.unpin_all(chat_id)              # رفع همه سنجاق‌ها
+await admin.purge_messages(chat_id, limit=100) # پاکسازی پیام‌ها
+
+# عملیات دسته‌ای
+await admin.bulk_action(chat_id, "ban", [user_id1, user_id2])
+
+# لاگ مدیریتی
+events = await admin.get_admin_log(chat_id, limit=50)
+```
+
+### آینه‌سازی پیام
+
+```python
+from spluspy.mirror import MessageMirror
+
+mirror = MessageMirror(bot)
+
+# افزودن مسیر آینه‌سازی
+mirror.add_route(
+    source=-1001234567890,
+    targets=[-1009876543210, -1001112223334],
+    strip_forward=True,
+    strip_sender=False,
+    add_prefix="[Mirror]"
+)
+
+# یا به صورت تدریجی
+mirror.add_source(-1001234567890)
+mirror.add_target(-1009876543210)
+
+await mirror.start()
+```
+
+### زمان‌بند
+
+```python
+from spluspy.scheduler.scheduler import MessageScheduler
+
+scheduler = MessageScheduler(bot)
+
+# ارسال پیام هر ساعت
+scheduler.schedule_interval("hourly_greeting", chat_id, "سلام!", interval=3600)
+
+# ارسال پیام با تاخیر
+scheduler.schedule_once("reminder", chat_id, "فراموش نکن!", delay=300)
+
+# لغو وظیفه زمان‌بندی شده
+scheduler.cancel("hourly_greeting")
 ```
 
 ### مدیریت خطا
@@ -906,14 +1142,14 @@ bot.on_error(error_handler.build())
 
 ```python
 # ارسال چندین پیام
-پیام‌ها = ["سلام ۱", "سلام ۲", "سلام ۳"]
-نتایج = await bot.batch_send(chat_id, پیام‌ها)
+messages = ["سلام ۱", "سلام ۲", "سلام ۳"]
+results = await bot.batch_send(chat_id, messages)
 
 # حذف چندین پیام
-await bot.batch_delete(chat_id, [پیام۱, پیام۲, پیام۳])
+await bot.batch_delete(chat_id, [msg1, msg2, msg3])
 
 # فوروارد چندین پیام
-await bot.batch_forward(chat_id, [پیام۱, پیام۲])
+await bot.batch_forward(chat_id, [msg1, msg2])
 ```
 
 ### انتقال فایل با پیشرفت
@@ -935,25 +1171,46 @@ await message.download(progress=tracker)
 # اجرای ربات
 spluspy run bot.py
 
+# اجرا با نشست سفارشی
+spluspy run bot.py --session my_bot
+
 # اطلاعات نشست
-spluspy session-info
+spluspy session-info my_session.session
 
 # نمایش نسخه
 spluspy version
 
-# اعتبارسنجی نشست
-spluspy validate
+# اعتبارسنجی اسکریپت ربات
+spluspy validate bot.py
 ```
 
 ### Docker
 
 ```dockerfile
 FROM python:3.12-slim
+
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install spluspy
-COPY . .
-CMD ["spluspy", "run", "bot.py"]
+
+# نصب وابستگی‌های سیستمی
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# نصب spluspy
+RUN pip install --no-cache-dir spluspy[all]
+
+# کپی اسکریپت ربات
+COPY bot.py .
+
+# اجرای ربات
+CMD ["python", "bot.py"]
+```
+
+ساخت و اجرا:
+
+```bash
+docker build -t my-spluspy-bot .
+docker run -v ./sessions:/app/sessions my-spluspy-bot
 ```
 
 ### ساختار پروژه
@@ -965,20 +1222,52 @@ spluspy/
 ├── cli.py               # نقطه ورود CLI
 ├── config.py            # پیکربندی
 ├── compat.py            # لایه سازگاری
+├── afk.py               # پاسخگوی خودکار AFK
+├── admin.py             # مدیریت چت
+├── mirror.py            # موتور آینه‌سازی پیام
 ├── client/              # کلاینت و API مکالمه
-├── types/               # مدل‌های دامنه (Message, User, Chat, Media, و غیره)
+│   ├── client.py        # کلاس اصلی Client
+│   └── conversation.py  # API مکالمه
+├── models/              # مدل‌های دامنه (Message, User, Chat, Media, و غیره)
 ├── events/              # انواع رویداد و بیلدرها
 ├── filters/             # فیلترهای قابل ترکیب پیام
 ├── errors/              # سلسله مراتب استثنای سفارشی
 ├── session/             # بک‌اندهای نشست (SQLite, Memory, String)
-├── network/             // اتصالات TCP و استخر اتصال
+├── network/             # اتصالات TCP و استخر اتصال
 ├── storage/             # بک‌اندهای ذخیره‌سازی کلید-مقدار
 ├── plugins/             # بارگذار پلاگین
 ├── middleware/          # سیستم میان‌افزار
 ├── fsm/                 # ماشین حالت محدود
 ├── scheduler/           # زمان‌بند وظایف
 ├── utils/               # لاگر، کش، کمک‌کننده‌ها
-└── sync/                # کلاینت همگام‌سازی شده
+├── sync/                # کلاینت همگام‌سازی شده
+└── _engine/             # موتور MTProto سطح پایین
+```
+
+### سلسله مراتب خطاها
+
+```
+SplusPyError
+├── SoroushPlusAPIError
+│   ├── RPCError
+│   │   ├── FloodWait
+│   │   ├── Unauthorized
+│   │   ├── BadRequest
+│   │   │   ├── ChatNotFound
+│   │   │   ├── UserNotFound
+│   │   │   └── MessageNotFound
+│   │   └── ...
+│   ├── SessionExpiredError
+│   └── SessionError
+├── AuthError
+├── ValidationError
+├── JoinChatError
+│   ├── InvalidInviteLinkError
+│   ├── InviteLinkExpiredError
+│   ├── ChatFullError
+│   ├── ChatDeactivatedError
+│   └── MembershipRequiredError
+└── FloodWaitError (محدودیت نرخ)
 ```
 
 ---
@@ -989,17 +1278,47 @@ spluspy/
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/your-feature`)
-3. Make your changes
-4. Run tests: `pytest`
-5. Submit a pull request
+3. Set up the development environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate
+   pip install -e ".[dev]"
+   ```
+4. Make your changes
+5. Run linting and formatting:
+   ```bash
+   ruff check spluspy/
+   black spluspy/
+   ```
+6. Run type checking:
+   ```bash
+   mypy spluspy/
+   ```
+7. Run tests: `pytest`
+8. Submit a pull request
 
 ### فارسی
 
 1. مخزن را Fork کنید
 2. شاخه ویژگی بسازید (`git checkout -b feature/your-feature`)
-3. تغییرات خود را اعمال کنید
-4. تست‌ها را اجرا کنید: `pytest`
-5. درخواست Pull ارسال کنید
+3. محیط توسعه را راه‌اندازی کنید:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate
+   pip install -e ".[dev]"
+   ```
+4. تغییرات خود را اعمال کنید
+5. لینتر و فرمت‌کننده را اجرا کنید:
+   ```bash
+   ruff check spluspy/
+   black spluspy/
+   ```
+6. بررسی نوع را اجرا کنید:
+   ```bash
+   mypy spluspy/
+   ```
+7. تست‌ها را اجرا کنید: `pytest`
+8. درخواست Pull ارسال کنید
 
 ---
 
