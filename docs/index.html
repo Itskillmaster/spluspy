@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SplusPy - Modern Python Library for Soroush Plus</title>
     <meta name="description" content="SplusPy is a modern, asynchronous Python library for interacting with Soroush Plus.">
+    <meta property="og:title" content="SplusPy - Modern Python Library for Soroush Plus">
+    <meta property="og:description" content="Asynchronous, feature-rich library for building Soroush Plus bots.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/Itskillmaster/spluspy/main/logo.png">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/svg+xml" href="logo.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-
-        /* ===== THEME VARIABLES ===== */
         [data-theme="dark"] {
             --bg-0: #0a0a0f; --bg-1: #12121a; --bg-2: #1a1a2e; --bg-3: #222240;
             --tx-0: #f0f0f5; --tx-1: #a0a0b8; --tx-2: #6b6b80;
@@ -31,7 +33,6 @@
             --code-bg: #f0f0f5; --card-shadow: 0 4px 24px rgba(0,0,0,.08);
             --nav-bg: rgba(245,246,250,.88); --hero-glow1: rgba(108,92,231,.05); --hero-glow2: rgba(0,184,148,.04);
         }
-
         html { scroll-behavior: smooth; }
         body {
             font-family: 'Inter','Vazirmatn',sans-serif;
@@ -39,8 +40,8 @@
             line-height: 1.7; overflow-x: hidden;
             transition: background .35s, color .35s;
         }
-
-        /* ===== NAVBAR ===== */
+        a { color: var(--accent-l); text-decoration: none; }
+        a:hover { opacity: .8; }
         .navbar {
             position:fixed; top:0; left:0; right:0; z-index:1000;
             padding:1rem 2rem; background:var(--nav-bg);
@@ -63,8 +64,6 @@
             transition: all .25s;
         }
         .theme-btn:hover { border-color:var(--accent); color:var(--accent-l); }
-
-        /* ===== HERO ===== */
         .hero {
             min-height:100vh; display:flex; align-items:center; justify-content:center;
             text-align:center; padding:8rem 2rem 4rem; position:relative; overflow:hidden;
@@ -108,16 +107,12 @@
         .hero-cmd .pr { color:var(--green); }
         .hero-cmd .cp { background:none; border:none; color:var(--tx-2); cursor:pointer; padding:.25rem; border-radius:6px; display:flex; }
         .hero-cmd .cp:hover { color:var(--accent-l); }
-
-        /* ===== SECTIONS ===== */
         .sec { padding:5rem 2rem; }
         .sec-wrap { max-width:1200px; margin:0 auto; }
         .sec-hdr { text-align:center; margin-bottom:3.5rem; }
         .sec-hdr h2 { font-size:2.3rem; font-weight:800; margin-bottom:.8rem; letter-spacing:-.02em; }
         .sec-hdr p { color:var(--tx-1); font-size:1.05rem; max-width:600px; margin:0 auto; }
         .sec-hdr .fa { font-family:'Vazirmatn',sans-serif; direction:rtl; color:var(--tx-2); font-size:.9rem; margin-top:.4rem; }
-
-        /* ===== FEATURES ===== */
         .feat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.4rem; }
         .feat-card {
             background:var(--bg-2); border:1px solid var(--border); border-radius:14px;
@@ -133,8 +128,6 @@
         .feat-ico { font-size:1.6rem; margin-bottom:1rem; }
         .feat-card h3 { font-size:1.05rem; font-weight:700; margin-bottom:.4rem; }
         .feat-card p { color:var(--tx-1); font-size:.88rem; }
-
-        /* ===== API REFERENCE ===== */
         .api-nav {
             display:flex; flex-wrap:wrap; gap:.6rem; justify-content:center; margin-bottom:3rem;
             position:sticky; top:70px; z-index:50; padding:.8rem 0;
@@ -147,7 +140,6 @@
             border:1px solid var(--border); transition:all .2s; white-space:nowrap;
         }
         .api-nav a:hover, .api-nav a.active { background:var(--accent); color:#fff; border-color:var(--accent); }
-
         .api-group { margin-bottom:3rem; }
         .api-group-title {
             font-size:1.5rem; font-weight:800; margin-bottom:1.5rem;
@@ -174,8 +166,6 @@
         .api-params td:first-child { font-family:'JetBrains Mono',monospace; color:var(--accent-l); font-weight:500; white-space:nowrap; }
         .api-params td:nth-child(2) { font-family:'JetBrains Mono',monospace; color:var(--green); white-space:nowrap; }
         .api-params tr:last-child td { border-bottom:none; }
-
-        /* ===== CODE ===== */
         .code-bg { background:var(--bg-1); }
         .code-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.8rem; }
         .code-box { background:var(--code-bg); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
@@ -188,24 +178,30 @@
         .code-body pre { font-family:'JetBrains Mono',monospace; font-size:.82rem; line-height:1.8; color:var(--tx-1); }
         .kw { color:#c678dd; } .fn { color:#61afef; } .st { color:#98c379; } .dc { color:#e5c07b; }
         .cm { color:#5c6370; font-style:italic; } .pm { color:#e06c75; } .nm { color:#d19a66; }
-
-        /* ===== INSTALL ===== */
         .inst-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.3rem; }
         .inst-card { background:var(--bg-2); border:1px solid var(--border); border-radius:12px; padding:1.3rem; transition:all .3s; }
         .inst-card:hover { border-color:var(--accent); transform:translateY(-2px); }
         .inst-card h4 { font-size:.95rem; margin-bottom:.4rem; color:var(--accent-l); }
         .inst-card code { display:block; background:var(--code-bg); padding:.5rem .9rem; border-radius:7px; font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--green); border:1px solid var(--border); margin-top:.4rem; overflow-x:auto; }
         .inst-card p { color:var(--tx-2); font-size:.8rem; margin-top:.4rem; }
-
-        /* ===== FOOTER ===== */
+        .contrib-box, .changelog-box {
+            background:var(--bg-2); border-radius:14px; padding:2rem; border:1px solid var(--border);
+            max-width:700px; margin:0 auto;
+        }
+        .contrib-box ol, .changelog-box ul {
+            color:var(--tx-1); line-height:2.2; font-size:.95rem;
+            list-style-position:inside; padding-left:0;
+        }
+        .contrib-box code, .changelog-box code {
+            background:var(--code-bg); padding:.1rem .4rem; border-radius:4px;
+            font-family:'JetBrains Mono',monospace; font-size:.8rem; color:var(--green);
+        }
         .footer { border-top:1px solid var(--border); padding:2.5rem 2rem; text-align:center; }
         .footer a { color:var(--accent-l); text-decoration:none; }
         .footer-links { display:flex; justify-content:center; gap:2rem; margin-bottom:1.2rem; flex-wrap:wrap; }
         .footer-links a { color:var(--tx-2); font-size:.88rem; }
         .footer-links a:hover { color:var(--accent-l); }
         .footer-copy { color:var(--tx-2); font-size:.82rem; }
-
-        /* ===== RESPONSIVE ===== */
         @media(max-width:768px){
             .nav-links:not(.mobile-open){display:none}
             .hero{padding:7rem 1.5rem 3rem} .hero h1{font-size:2rem}
@@ -214,15 +210,13 @@
             .sec{padding:3.5rem 1.2rem}
             .api-nav{top:60px}
         }
-
-        /* ===== ANIMATIONS ===== */
         .fi { opacity:0; transform:translateY(25px); transition:all .55s ease; }
         .fi.vis { opacity:1; transform:translateY(0); }
     </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
+<!-- ===== NAVBAR ===== -->
 <nav class="navbar" id="nav">
     <div class="nav-wrap">
         <a href="#" class="nav-logo">
@@ -234,16 +228,15 @@
             <li><a href="#api">API</a></li>
             <li><a href="#quickstart">Code</a></li>
             <li><a href="#install">Install</a></li>
+            <li><a href="#contributing">Contributing</a></li>
             <li><a href="https://github.com/Itskillmaster/spluspy" target="_blank">GitHub</a></li>
             <li><a href="https://pypi.org/project/spluspy/" class="nav-cta" target="_blank">PyPI</a></li>
-            <li>
-                <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme" id="themeBtn">&#9789;</button>
-            </li>
+            <li><button class="theme-btn" onclick="toggleTheme()" title="Toggle theme" id="themeBtn">&#9789;</button></li>
         </ul>
     </div>
 </nav>
 
-<!-- HERO -->
+<!-- ===== HERO ===== -->
 <section class="hero">
     <div class="hero-inner">
         <div class="hero-badge"><span class="badge-dot"></span>v2.2.1 — Stable</div>
@@ -253,14 +246,10 @@
             <br><span class="hero-sub-fa">کتابخانه پایتون مدرن و ناهمگام برای تعامل با سروش پلاس — هم کاربر و هم ربات</span>
         </p>
         <div class="hero-btns">
-            <a href="#api" class="btn btn-p">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-                API Reference
-            </a>
-            <a href="https://github.com/Itskillmaster/spluspy" class="btn btn-s" target="_blank">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                GitHub
-            </a>
+            <a href="#api" class="btn btn-p">📖 API Reference</a>
+            <a href="https://github.com/Itskillmaster/spluspy" class="btn btn-s" target="_blank">🐙 GitHub</a>
+            <a href="https://github.com/Itskillmaster/spluspy" class="btn btn-s" target="_blank">⭐ Star</a>
+            <a href="https://github.com/Itskillmaster/spluspy/fork" class="btn btn-s" target="_blank">🍴 Fork</a>
         </div>
         <div class="hero-cmd">
             <span class="pr">$</span> pip install spluspy
@@ -269,47 +258,52 @@
     </div>
 </section>
 
-<!-- FEATURES -->
+<!-- ===== FEATURES ===== -->
 <section class="sec" id="features">
     <div class="sec-wrap">
         <div class="sec-hdr fi"><h2>Everything You Need</h2><p>Packed with features for powerful Soroush Plus bots.</p><p class="fa">همه چیزی که برای ربات‌های قدرتمند سروش پلاس نیاز دارید</p></div>
         <div class="feat-grid">
-            <div class="feat-card fi"><div class="feat-ico">&#9889;</div><h3>Fully Asynchronous</h3><p>Built with asyncio. Non-blocking I/O for high-performance concurrent operations.</p></div>
-            <div class="feat-card fi"><div class="feat-ico">&#128274;</div><h3>No API Key Required</h3><p>Uses built-in Soroush Plus credentials. Install and start building immediately.</p></div>
-            <div class="feat-card fi"><div class="feat-ico">&#127919;</div><h3>Event-Driven Handlers</h3><p>Handle messages, edits, callbacks, inline queries, and more with decorators.</p></div>
-            <div class="feat-card fi"><div class="feat-ico">&#129513;</div><h3>Composable Filters</h3><p>Chain filters with &amp; (AND), | (OR), ~ (NOT) for complex conditions.</p></div>
-            <div class="feat-card fi"><div class="feat-ico">&#127903;</div><h3>Inline & Reply Buttons</h3><p>Interactive keyboards with URL buttons, callback data, and more.</p></div>
-            <div class="feat-card fi"><div class="feat-ico">&#128172;</div><h3>Conversation API</h3><p>Multi-step bot dialogs with context managers for interactive flows.</p></div>
-            <div class="feat-card fi"><div class="feat-ico">&#128260;</div><h3>Finite State Machine</h3><p>Built-in FSM with multiple storage backends and decorator routing.</p></div>
-            <div class="feat-card fi"><div class="feat-ico">&#128295;</div><h3>Plugin System</h3><p>Dynamic plugin loading. Modular architecture that scales.</p></div>
-            <div class="feat-card fi"><div class="feat-ico">&#129504;</div><h3>Middleware</h3><p>Pre/post processing of updates. Add logging and rate limiting.</p></div>
-            <div class="feat-card fi"><div class="feat-ico">&#9200;</div><h3>Built-in Scheduler</h3><p>Schedule messages and callbacks with interval or one-shot timing.</p></div>
-            <div class="feat-card fi"><div class="feat-ico">&#128190;</div><h3>Multiple Storage Backends</h3><p>Memory, SQLite, Redis, PostgreSQL — choose what fits.</p></div>
-            <div class="feat-card fi"><div class="feat-ico">&#128737;</div><h3>Rate Limiting</h3><p>Token bucket algorithm with automatic flood wait handling.</p></div>
-            <div class="feat-card fi"><div class="feat-ico">&#127964;</div><h3>AFK Auto-Reply</h3><p>Smart auto-responder with per-chat rate limiting.</p></div>
-            <div class="feat-card fi"><div class="feat-ico">&#128739;</div><h3>Chat Administration</h3><p>Ban, mute, pin, purge — high-level admin API.</p></div>
-            <div class="feat-card fi"><div class="feat-ico">&#128256;</div><h3>Message Mirroring</h3><p>Real-time message cloning between chats.</p></div>
-            <div class="feat-card fi"><div class="feat-ico">&#128229;</div><h3>File Transfer</h3><p>Upload/download with progress tracking and chunked transfers.</p></div>
-            <div class="feat-card fi"><div class="feat-ico">&#128196;</div><h3>Sync Wrapper</h3><p>Use without async/await via <code>spluspy.sync</code>.</p></div>
-            <div class="feat-card fi"><div class="feat-ico">&#128202;</div><h3>Batch Operations</h3><p>Send, delete, forward multiple messages at once.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">⚡</div><h3>Fully Asynchronous</h3><p>Built with asyncio. Non-blocking I/O for high-performance concurrent operations.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">🔒</div><h3>No API Key Required</h3><p>Uses built-in Soroush Plus credentials. Install and start building immediately.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">🎙</div><h3>Event-Driven Handlers</h3><p>Handle messages, edits, callbacks, inline queries, and more with decorators.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">🧩</div><h3>Composable Filters</h3><p>Chain filters with &amp; (AND), | (OR), ~ (NOT) for complex conditions.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">🎮</div><h3>Inline & Reply Buttons</h3><p>Interactive keyboards with URL buttons, callback data, and more.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">💬</div><h3>Conversation API</h3><p>Multi-step bot dialogs with context managers for interactive flows.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">🔎</div><h3>Finite State Machine</h3><p>Built-in FSM with multiple storage backends and decorator routing.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">🔧</div><h3>Plugin System</h3><p>Dynamic plugin loading. Modular architecture that scales.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">🧐</div><h3>Middleware</h3><p>Pre/post processing of updates. Add logging and rate limiting.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">⏰</div><h3>Built-in Scheduler</h3><p>Schedule messages and callbacks with interval or one-shot timing.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">📦</div><h3>Multiple Storage Backends</h3><p>Memory, SQLite, Redis, PostgreSQL — choose what fits.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">🚦</div><h3>Rate Limiting</h3><p>Token bucket algorithm with automatic flood wait handling.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">🎯</div><h3>AFK Auto-Reply</h3><p>Smart auto-responder with per-chat rate limiting.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">🛠</div><h3>Chat Administration</h3><p>Ban, mute, pin, purge — high-level admin API.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">📶</div><h3>Message Mirroring</h3><p>Real-time message cloning between chats.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">📤</div><h3>File Transfer</h3><p>Upload/download with progress tracking and chunked transfers.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">📄</div><h3>Sync Wrapper</h3><p>Use without async/await via <code>spluspy.sync</code>.</p></div>
+            <div class="feat-card fi"><div class="feat-ico">📊</div><h3>Batch Operations</h3><p>Send, delete, forward multiple messages at once.</p></div>
         </div>
     </div>
 </section>
 
-<!-- API REFERENCE -->
+<!-- ===== API REFERENCE (بر اساس کد واقعی) ===== -->
 <section class="sec" id="api">
     <div class="sec-wrap">
         <div class="sec-hdr fi"><h2>Complete API Reference</h2><p>Every class, method, and parameter documented.</p><p class="fa">مستندات کامل تمام کلاس‌ها، متدها و پارامترها — به دو زبان</p></div>
 
         <div class="api-nav" id="apiNav">
             <a href="#api-client">Client</a>
-            <a href="#api-conversation">Conversation</a>
             <a href="#api-message">Message</a>
-            <a href="#api-user">User</a>
-            <a href="#api-chat">Chat</a>
-            <a href="#api-button">Button</a>
             <a href="#api-filters">Filters</a>
             <a href="#api-events">Events</a>
+            <a href="#api-conversation">Conversation</a>
+            <a href="#api-button">Button</a>
+            <a href="#api-dialogs">Dialogs</a>
+            <a href="#api-chats">Chats</a>
+            <a href="#api-uploads">Uploads</a>
+            <a href="#api-downloads">Downloads</a>
+            <a href="#api-extra">Extra</a>
+            <a href="#api-auth">Auth</a>
+            <a href="#api-account">Account</a>
             <a href="#api-fsm">FSM</a>
             <a href="#api-storage">Storage</a>
             <a href="#api-middleware">Middleware</a>
@@ -323,303 +317,89 @@
 
         <!-- ==================== CLIENT ==================== -->
         <div class="api-group fi" id="api-client">
-            <h3 class="api-group-title">Client</h3>
+            <h3 class="api-group-title">SoroushClient</h3>
             <p style="color:var(--tx-1);margin-bottom:1.2rem;font-size:.9rem">
-                Main entry point for all SplusPy operations. Manages authentication, events, middleware, and API calls. Supports bot mode (<code>bot_token</code>) and user mode (<code>phone</code>).
-                <br><span style="font-family:'Vazirmatn',sans-serif;direction:rtl;color:var(--tx-2);font-size:.85rem">نقطه ورود اصلی تمام عملیات SplusPy — مدیریت احراز هویت، رویدادها، میان‌افزار و فراخوانی‌های API</span>
+                Main entry point. Inherits from: <code>AccountMethods, AuthMethods, DownloadMethods, DialogMethods, ChatMethods, MessageMethods, UploadMethods, ButtonMethods, UpdateMethods, MessageParseMethods, UserMethods, ExtraMethods</code>
+                <br><span style="font-family:'Vazirmatn',sans-serif;direction:rtl;color:var(--tx-2);font-size:.85rem">نقطه ورود اصلی. از تمام متدهای بالا ارث‌بری می‌کند.</span>
             </p>
 
             <div class="api-method">
-                <div class="api-method-name">Client(session="spluspy", *, bot_token=None, phone=None, ...) <span class="ret">-> Client</span></div>
-                <div class="api-method-desc">Create a new SplusPy client. Use <code>bot_token</code> for bots or <code>phone</code> for user accounts.</div>
-                <div class="api-method-desc-fa">ساخت کلاینت جدید SplusPy. از <code>bot_token</code> برای ربات‌ها و <code>phone</code> برای حساب کاربری استفاده کنید.</div>
+                <div class="api-method-name">SoroushClient(session, api_id=1030400, api_hash="...", *, connection=ConnectionWebSocket, ...) <span class="ret">-> SoroushClient</span></div>
+                <div class="api-method-desc">Create a new client. Uses built-in API credentials by default. Supports <code>SQLiteSession</code>, <code>MemorySession</code>, or custom <code>Session</code>.</div>
+                <div class="api-method-desc-fa">ساخت کلاینت جدید. به‌طور پیش‌فرض از credentials داخلی استفاده می‌کند.</div>
                 <div class="api-params"><table>
                     <tr><th>Param</th><th>Type</th><th>Description</th></tr>
-                    <tr><td>session</td><td>str | Session</td><td>Session name for persisting auth data / نام نشست</td></tr>
-                    <tr><td>bot_token</td><td>str | None</td><td>Bot token for bot mode / توکن ربات</td></tr>
-                    <tr><td>phone</td><td>str | None</td><td>Phone for user mode auth / شماره تلفن</td></tr>
-                    <tr><td>api_id</td><td>int | None</td><td>Custom API ID (uses built-in if None) / شناسه API سفارشی</td></tr>
-                    <tr><td>api_hash</td><td>str | None</td><td>Custom API hash / هش API سفارشی</td></tr>
-                    <tr><td>flood_sleep_threshold</td><td>int</td><td>Auto-sleep on FloodWait (default: 60) / آستانه انتظار سیلاب</td></tr>
-                    <tr><td>request_timeout</td><td>float</td><td>API request timeout in seconds / تایم‌اوت درخواست</td></tr>
+                    <tr><td>session</td><td>str | Session</td><td>Session name or instance / نام یا نمونه نشست</td></tr>
+                    <tr><td>api_id</td><td>int</td><td>API ID (built-in default)</td></tr>
+                    <tr><td>api_hash</td><td>str</td><td>API hash (built-in default)</td></tr>
+                    <tr><td>connection</td><td>Connection</td><td>Transport (default: WebSocket)</td></tr>
+                    <tr><td>flood_sleep_threshold</td><td>int</td><td>Auto-sleep on FloodWait (default: 60)</td></tr>
+                    <tr><td>request_retries</td><td>int</td><td>Number of retries (default: 5)</td></tr>
+                    <tr><td>auto_reconnect</td><td>bool</td><td>Auto-reconnect on disconnect (default: True)</td></tr>
+                    <tr><td>sequential_updates</td><td>bool</td><td>Process updates sequentially (default: False)</td></tr>
+                    <tr><td>receive_updates</td><td>bool</td><td>Receive updates from server (default: True)</td></tr>
                 </table></div>
             </div>
 
             <div class="api-method">
                 <div class="api-method-name">async connect() <span class="ret">-> None</span></div>
-                <div class="api-method-desc">Connect to the Soroush Plus server. Must be called before sending messages in user mode.</div>
-                <div class="api-method-desc-fa">اتصال به سرور سروش پلاس. قبل از ارسال پیام در حالت کاربری باید فراخوانی شود.</div>
+                <div class="api-method-desc">Connect to Soroush Plus server.</div>
+                <div class="api-method-desc-fa">اتصال به سرور سروش پلاس.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">async disconnect() <span class="ret">-> None</span></div>
-                <div class="api-method-desc">Disconnect from the server and clean up resources.</div>
-                <div class="api-method-desc-fa">قطع اتصال از سرور و پاکسازی منابع.</div>
+                <div class="api-method-desc">Disconnect and clean up resources.</div>
+                <div class="api-method-desc-fa">قطع اتصال و پاکسازی منابع.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async start() <span class="ret">-> None</span></div>
-                <div class="api-method-desc">Start the client with interactive auth prompts (phone/password/code).</div>
-                <div class="api-method-desc-fa">شروع کلاینت با درخواست‌های تعاملی احراز هویت.</div>
+                <div class="api-method-name">is_connected() <span class="ret">-> bool</span></div>
+                <div class="api-method-desc">Check if connected. Synchronous.</div>
+                <div class="api-method-desc-fa">بررسی اتصال. همزمان.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">run() <span class="ret">-> None</span></div>
-                <div class="api-method-desc">Blocking entry point. Connects, runs until disconnected, then cleans up. Simplest way to run a bot.</div>
-                <div class="api-method-desc-fa">نقطه ورود بلوکه‌کننده. متصل می‌شود، اجرا می‌کند و سپس پاکسازی می‌کند. ساده‌ترین راه اجرای ربات.</div>
+                <div class="api-method-name">run_until_disconnected() <span class="ret">-> None</span></div>
+                <div class="api-method-desc">Run the event loop until disconnected. Handles reconnections.</div>
+                <div class="api-method-desc-fa">اجرای حلقه رویداد تا قطع اتصال. مدیریت reconnect.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async run_until_disconnected() <span class="ret">-> None</span></div>
-                <div class="api-method-desc">Run the event loop until disconnected. Handles transient disconnections gracefully.</div>
-                <div class="api-method-desc-fa">اجرای حلقه رویداد تا قطع اتصال. مدیریت خودکار قطعی‌های موقت.</div>
+                <div class="api-method-name">add_event_handler(callback, event) <span class="ret">-> None</span></div>
+                <div class="api-method-desc">Register an event handler.</div>
+                <div class="api-method-desc-fa">ثبت هندلر رویداد.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async send_message(chat_id, text=None, *, reply_to=None, parse_mode=None, link_preview=True) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Send a text message to a chat. Returns the sent Message object.</div>
-                <div class="api-method-desc-fa">ارسال پیام متنی به چت. شیء Message ارسال شده را برمی‌گرداند.</div>
-                <div class="api-params"><table>
-                    <tr><th>Param</th><th>Type</th><th>Description</th></tr>
-                    <tr><td>chat_id</td><td>int</td><td>Target chat/user ID / شناسه چت مقصد</td></tr>
-                    <tr><td>text</td><td>str | None</td><td>Message text / متن پیام</td></tr>
-                    <tr><td>reply_to</td><td>int | None</td><td>Message ID to reply to / پاسخ به پیام</td></tr>
-                    <tr><td>parse_mode</td><td>str | None</td><td>"html", "markdown", or None / حالت پارس</td></tr>
-                </table></div>
+                <div class="api-method-name">remove_event_handler(callback, event=None) <span class="ret">-> int</span></div>
+                <div class="api-method-desc">Remove one or all handlers for a callback.</div>
+                <div class="api-method-desc-fa">حذف یک یا همه هندلرهای یک callback.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async edit_message(message, *, text=None, delay=0) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Edit a message's text. Optional delay in seconds before editing.</div>
-                <div class="api-method-desc-fa">ویرایش متن پیام. تاخیر اختیاری قبل از ویرایش.</div>
+                <div class="api-method-name">async get_me(input_peer=False) <span class="ret">-> User | InputPeerUser</span></div>
+                <div class="api-method-desc">Get the current logged-in user.</div>
+                <div class="api-method-desc-fa">دریافت کاربر فعلی.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async delete_messages(*messages) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Delete one or more messages. Accepts Message objects or integer IDs.</div>
-                <div class="api-method-desc-fa">حذف یک یا چند پیام. اشیاء Message یا شناسه‌های عددی می‌پذیرد.</div>
+                <div class="api-method-name">async is_bot() <span class="ret">-> bool</span></div>
+                <div class="api-method-desc">Return True if logged in as a bot.</div>
+                <div class="api-method-desc-fa">بررسی ربات بودن.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async forward_messages(chat_id, *messages) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Forward messages to another chat.</div>
-                <div class="api-method-desc-fa">فوروارد پیام‌ها به چت دیگر.</div>
+                <div class="api-method-name">async is_user_authorized() <span class="ret">-> bool</span></div>
+                <div class="api-method-desc">Check if the user is authorized.</div>
+                <div class="api-method-desc-fa">بررسی احراز هویت.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async send_photo(chat_id, photo, *, caption=None) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Send a photo. photo can be file path, bytes, or file-like object.</div>
-                <div class="api-method-desc-fa">ارسال عکس. photo می‌تواند مسیر فایل، بایت یا شیء فایل باشد.</div>
+                <div class="api-method-name">async get_entity(entity) <span class="ret">-> User | Chat | Channel</span></div>
+                <div class="api-method-desc">Turn username/ID/phone into a full entity.</div>
+                <div class="api-method-desc-fa">تبدیل شناسه به موجودیت کامل.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async send_video(chat_id, video, *, caption=None, duration=0, progress_callback=None) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Send a video. Duration/width/height auto-detected if 0.</div>
-                <div class="api-method-desc-fa">ارسال ویدیو. مدت زمان/عرض/ارتفاع در صورت 0 بودن خودکار تشخیص داده می‌شود.</div>
+                <div class="api-method-name">async get_input_entity(peer) <span class="ret">-> InputPeer</span></div>
+                <div class="api-method-desc">Get InputPeer version of an entity.</div>
+                <div class="api-method-desc-fa">دریافت InputPeer موجودیت.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async send_document(chat_id, document, *, caption=None, progress_callback=None) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Send a document/file.</div>
-                <div class="api-method-desc-fa">ارسال سند/فایل.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async send_voice(chat_id, voice, *, caption=None) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Send a voice note (audio message).</div>
-                <div class="api-method-desc-fa">ارسال یادداشت صوتی.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async send_audio(chat_id, audio, *, caption=None, performer=None, title=None) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Send an audio file with optional metadata.</div>
-                <div class="api-method-desc-fa">ارسال فایل صوتی با متادیتای اختیاری.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async send_animation(chat_id, animation, *, caption=None) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Send an animation/GIF.</div>
-                <div class="api-method-desc-fa">ارسال انیمیشن/گیف.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async send_location(chat_id, lat, lon) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Send a geographic location.</div>
-                <div class="api-method-desc-fa">ارسال موقعیت جغرافیایی.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async send_contact(chat_id, phone, first_name, last_name="") <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Send a contact card.</div>
-                <div class="api-method-desc-fa">ارسال کارت مخاطب.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async send_poll(chat_id, question, options, *, is_anonymous=True) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Send a poll. Options: list of 2-10 strings.</div>
-                <div class="api-method-desc-fa">ارسال نظرسنجی. گزینه‌ها: لیست ۲ تا ۱۰ رشته.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async send_dice(chat_id, emoji="&#127922;") <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Send a dice animation. Emojis: &#127922; &#127919; &#127936; &#9917; &#127923; &#127920;</div>
-                <div class="api-method-desc-fa">ارسال انیمیشن تاس.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async send_reaction(chat_id, message, emoji) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">React to a message with an emoji.</div>
-                <div class="api-method-desc-fa">واکنش به پیام با ایموجی.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async send_sticker(chat_id, sticker, *, emoji=None) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Send a sticker.</div>
-                <div class="api-method-desc-fa">ارسال استیکر.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async send_chat_action(chat_id, action="typing") <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Send typing indicator. Actions: "typing", "upload_photo", "record_video", "upload_video", "record_audio", "upload_audio", "upload_document", "find_location", "choose_sticker"</div>
-                <div class="api-method-desc-fa">ارسال نشانگر تایپ کردن.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async ban_user(chat_id, user_id) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Ban a user from a chat.</div>
-                <div class="api-method-desc-fa">مسدود کردن کاربر از چت.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async unban_user(chat_id, user_id) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Unban a user.</div>
-                <div class="api-method-desc-fa">رفع مسدودیت کاربر.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async mute_user(chat_id, user_id) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Mute a user (restrict from sending messages).</div>
-                <div class="api-method-desc-fa">بی‌صدا کردن کاربر.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async unmute_user(chat_id, user_id) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Unmute a user.</div>
-                <div class="api-method-desc-fa">رفع بی‌صدایی کاربر.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async join_chat(chat_id) <span class="ret">-> Any</span></div>
-                <div class="api-method-desc">Join a chat by ID, username, or invite link. Raises typed exceptions on failure.</div>
-                <div class="api-method-desc-fa">پیوستن به چت با شناسه، نام کاربری یا لینک دعوت.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async leave_chat(chat_id) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Leave a chat. Auto-detects channel vs group.</div>
-                <div class="api-method-desc-fa">خروج از چت. تشخیص خودکار کانال و گروه.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async get_me() <span class="ret">-> User</span></div>
-                <div class="api-method-desc">Get the currently authenticated user.</div>
-                <div class="api-method-desc-fa">دریافت کاربر احراز هویت شده فعلی.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async get_chat(chat_id) <span class="ret">-> Any</span></div>
-                <div class="api-method-desc">Get a chat entity by ID or username.</div>
-                <div class="api-method-desc-fa">دریافت موجودیت چت با شناسه یا نام کاربری.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async get_user(user_id) <span class="ret">-> User | None</span></div>
-                <div class="api-method-desc">Get full user info by ID or @username.</div>
-                <div class="api-method-desc-fa">دریافت اطلاعات کامل کاربر با شناسه یا نام کاربری.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async get_messages(chat_id, *, limit=100) <span class="ret">-> list[Message]</span></div>
-                <div class="api-method-desc">Get messages from a chat, newest first.</div>
-                <div class="api-method-desc-fa">دریافت پیام‌ها از چت، جدیدترین اول.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async iter_messages(chat_id, *, limit=1000, search=None) <span class="ret">-> AsyncGenerator</span></div>
-                <div class="api-method-desc">Async generator yielding messages in memory-efficient batches.</div>
-                <div class="api-method-desc-fa">ژنراتور ناهمگام برای پیمایش پیام‌ها به صورت دسته‌ای.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async search_messages(chat_id, query, *, limit=100) <span class="ret">-> list[Message]</span></div>
-                <div class="api-method-desc">Search for messages by text query.</div>
-                <div class="api-method-desc-fa">جستجوی پیام‌ها با پرسش متنی.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async get_chat_info(chat_id) <span class="ret">-> dict | None</span></div>
-                <div class="api-method-desc">Get comprehensive chat info as a dict: id, title, username, link, description, member_count, type.</div>
-                <div class="api-method-desc-fa">دریافت اطلاعات کامل چت به صورت دیکشنری.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async get_user_info(user_id) <span class="ret">-> dict | None</span></div>
-                <div class="api-method-desc">Get comprehensive user info: id, first_name, last_name, full_name, username, link, bio, is_bot, is_premium, status.</div>
-                <div class="api-method-desc-fa">دریافت اطلاعات کامل کاربر.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async get_members(chat_id, *, limit=100) <span class="ret">-> list[ChatMember]</span></div>
-                <div class="api-method-desc">Get a list of chat members.</div>
-                <div class="api-method-desc-fa">دریافت لیست اعضای چت.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async pin_message(chat_id, message, *, notify=False) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Pin a message. Accepts Message object or int ID.</div>
-                <div class="api-method-desc-fa">سنجاق کردن پیام. شیء Message یا شناسه عددی می‌پذیرد.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async unpin_message(chat_id, message) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Unpin a message.</div>
-                <div class="api-method-desc-fa">رفع سنجاق پیام.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async mark_read(chat_id, message=None) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Mark message(s) as read.</div>
-                <div class="api-method-desc-fa">علامت خواندن پیام‌ها.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async resolve_username(username) <span class="ret">-> int</span></div>
-                <div class="api-method-desc">Resolve a username to numeric ID. Returns 0 if not found.</div>
-                <div class="api-method-desc-fa">تبدیل نام کاربری به شناسه عددی.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async update_profile(first_name=None, last_name=None, about=None) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Update the current user's profile fields.</div>
-                <div class="api-method-desc-fa">به‌روزرسانی فیلدهای پروفایل کاربر فعلی.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async set_profile_photo(photo) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Upload and set a new profile photo.</div>
-                <div class="api-method-desc-fa">آپلود و تنظیم عکس پروفایل جدید.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async set_username(username) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Change username. Empty string removes it.</div>
-                <div class="api-method-desc-fa">تغییر نام کاربری. رشته خالی آن را حذف می‌کند.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async export_session_string() <span class="ret">-> str</span></div>
-                <div class="api-method-desc">Export session as a portable base64 string.</div>
-                <div class="api-method-desc-fa">خروجی نشست به صورت رشته base64 قابل حمل.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">conversation(chat_id, *, timeout=30.0) <span class="ret">-> Conversation</span></div>
-                <div class="api-method-desc">Create a conversation context manager for request/response flows.</div>
-                <div class="api-method-desc-fa">ساخت مدیر زمینه مکالمه برای جریان‌های درخواست/پاسخ.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async invoke(*args, **kwargs) <span class="ret">-> Any</span></div>
-                <div class="api-method-desc">Invoke a raw MTProto API method. Low-level escape hatch.</div>
-                <div class="api-method-desc-fa">فراخوانی روش خام MTProto API.</div>
-            </div>
-        </div>
-
-        <!-- ==================== CONVERSATION ==================== -->
-        <div class="api-group fi" id="api-conversation">
-            <h3 class="api-group-title">Conversation</h3>
-            <p style="color:var(--tx-1);margin-bottom:1rem;font-size:.9rem">
-                Interactive conversational flow for request/response style messaging. Used with <code>async with client.conversation(peer) as conv:</code>.
-                <br><span style="font-family:'Vazirmatn',sans-serif;direction:rtl;color:var(--tx-2);font-size:.85rem">جریان مکالمه تعاملی برای پیام‌رسانی سبک درخواست/پاسخ</span>
-            </p>
-            <div class="api-method">
-                <div class="api-method-name">async send_message(text) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Send a message in this conversation.</div>
-                <div class="api-method-desc-fa">ارسال پیام در این مکالمه.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async get_response(timeout=None) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Wait for the next incoming message. Raises ConversationTimeoutError on timeout.</div>
-                <div class="api-method-desc-fa">انتظار پیام بعدی. در صورت تایم‌اوت ConversationTimeoutError پرتاب می‌شود.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async send_and_wait(text, *, timeout=None) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Send a message and wait for a reply in one call.</div>
-                <div class="api-method-desc-fa">ارسال پیام و انتظار پاسخ در یک فراخوانی.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">empty() <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Returns True if the internal queue is empty.</div>
-                <div class="api-method-desc-fa">برگرداندن True اگر صف داخلی خالی باشد.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">clear() <span class="ret">-> None</span></div>
-                <div class="api-method-desc">Discard any unread messages in the queue.</div>
-                <div class="api-method-desc-fa">حذف پیام‌های خوانده نشده در صف.</div>
+                <div class="api-method-name">async get_peer_id(peer, add_mark=True) <span class="ret">-> int</span></div>
+                <div class="api-method-desc">Get the marked ID of a peer.</div>
+                <div class="api-method-desc-fa">دریافت ID علامت‌دار همتا.</div>
             </div>
         </div>
 
@@ -627,58 +407,73 @@
         <div class="api-group fi" id="api-message">
             <h3 class="api-group-title">Message</h3>
             <p style="color:var(--tx-1);margin-bottom:1rem;font-size:.9rem">
-                Represents a received or sent message with all its properties and methods.
-                <br><span style="font-family:'Vazirmatn',sans-serif;direction:rtl;color:var(--tx-2);font-size:.85rem">نمایانگر پیام دریافت شده یا ارسال شده با تمام ویژگی‌ها و متدها</span>
+                Represents a message. Inherits from <code>ChatGetter</code>, <code>SenderGetter</code>, <code>TLObject</code>.
+                <br><span style="font-family:'Vazirmatn',sans-serif;direction:rtl;color:var(--tx-2);font-size:.85rem">نمایانگر پیام. از ChatGetter و SenderGetter ارث‌بری می‌کند.</span>
             </p>
             <div class="api-params" style="margin-bottom:1.2rem"><table>
-                <tr><th>Field</th><th>Type</th><th>Description</th></tr>
-                <tr><td>id</td><td>int</td><td>Unique message identifier / شناسه یکتای پیام</td></tr>
-                <tr><td>text</td><td>str</td><td>Message text or caption / متن پیام یا کپشن</td></tr>
-                <tr><td>date</td><td>datetime | None</td><td>Timestamp / زمان پیام</td></tr>
-                <tr><td>chat_id</td><td>int</td><td>Chat ID / شناسه چت</td></tr>
-                <tr><td>sender_id</td><td>int | None</td><td>Sender user ID / شناسه فرستنده</td></tr>
-                <tr><td>sender</td><td>User | None</td><td>Resolved User object / شیء کاربر</td></tr>
-                <tr><td>media</td><td>Media | None</td><td>Attached media / رسانه پیوست</td></tr>
-                <tr><td>media_type</td><td>MessageMediaType</td><td>Kind of media / نوع رسانه</td></tr>
-                <tr><td>reply_to</td><td>int | None</td><td>Replied-to message ID / شناسه پیام پاسخ داده شده</td></tr>
-                <tr><td>is_group</td><td>bool</td><td>From a group / از گروه</td></tr>
-                <tr><td>is_channel</td><td>bool</td><td>From a channel / از کانال</td></tr>
-                <tr><td>is_private</td><td>bool</td><td>From a private chat / از چت خصوصی</td></tr>
+                <tr><th>Property</th><th>Type</th><th>Description</th></tr>
+                <tr><td>id</td><td>int</td><td>Message ID</td></tr>
+                <tr><td>text</td><td>str</td><td>Formatted text (Markdown/HTML)</td></tr>
+                <tr><td>raw_text</td><td>str</td><td>Raw text without formatting</td></tr>
+                <tr><td>date</td><td>datetime</td><td>Timestamp</td></tr>
+                <tr><td>chat_id</td><td>int</td><td>Chat ID</td></tr>
+                <tr><td>sender_id</td><td>int</td><td>Sender ID</td></tr>
+                <tr><td>sender</td><td>User | None</td><td>Resolved sender</td></tr>
+                <tr><td>chat</td><td>Chat | Channel | User</td><td>Resolved chat</td></tr>
+                <tr><td>is_private</td><td>bool</td><td>Private chat?</td></tr>
+                <tr><td>is_group</td><td>bool</td><td>Group or megagroup?</td></tr>
+                <tr><td>is_channel</td><td>bool</td><td>Channel?</td></tr>
+                <tr><td>is_reply</td><td>bool</td><td>Is a reply?</td></tr>
+                <tr><td>forward</td><td>Forward</td><td>Forward info</td></tr>
+                <tr><td>media</td><td>MessageMedia</td><td>Media object</td></tr>
+                <tr><td>media_type</td><td>MessageMediaType</td><td>PHOTO, VIDEO, DOCUMENT, etc.</td></tr>
+                <tr><td>photo</td><td>Photo</td><td>Photo media</td></tr>
+                <tr><td>document</td><td>Document</td><td>Document media</td></tr>
+                <tr><td>audio</td><td>Document</td><td>Audio file</td></tr>
+                <tr><td>voice</td><td>Document</td><td>Voice note</td></tr>
+                <tr><td>video</td><td>Document</td><td>Video file</td></tr>
+                <tr><td>gif</td><td>Document</td><td>GIF animation</td></tr>
+                <tr><td>sticker</td><td>Document</td><td>Sticker</td></tr>
+                <tr><td>file</td><td>File</td><td>Helper for file attributes</td></tr>
+                <tr><td>views</td><td>int</td><td>View count</td></tr>
+                <tr><td>forwards</td><td>int</td><td>Forward count</td></tr>
+                <tr><td>replies</td><td>MessageReplies</td><td>Reply info</td></tr>
+                <tr><td>reactions</td><td>MessageReactions</td><td>Reaction info</td></tr>
+                <tr><td>edit_date</td><td>datetime</td><td>Last edit time</td></tr>
+                <tr><td>grouped_id</td><td>int</td><td>Album group ID</td></tr>
+                <tr><td>out</td><td>bool</td><td>Outgoing?</td></tr>
+                <tr><td>pinned</td><td>bool</td><td>Pinned?</td></tr>
+                <tr><td>ttl_period</td><td>int</td><td>Self-destruct TTL</td></tr>
             </table></div>
             <div class="api-method">
-                <div class="api-method-name">Properties: message_id, is_forwarded, is_reply, is_media</div>
-                <div class="api-method-desc">Convenience properties for common checks.</div>
-                <div class="api-method-desc-fa">ویژگی‌های کمکی برای بررسی‌های رایج.</div>
+                <div class="api-method-name">async reply(text=None, *, buttons=None, file=None, **kwargs) <span class="ret">-> Message</span></div>
+                <div class="api-method-desc">Reply to this message.</div>
+                <div class="api-method-desc-fa">پاسخ به این پیام.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async reply(text=None, *, buttons=None, file=None) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Reply to this message (sends with reply header).</div>
-                <div class="api-method-desc-fa">پاسخ به این پیام (ارسال با هدر پاسخ).</div>
+                <div class="api-method-name">async edit(text=None, *, delay=0, **kwargs) <span class="ret">-> Message</span></div>
+                <div class="api-method-desc">Edit this message's text or media.</div>
+                <div class="api-method-desc-fa">ویرایش متن یا رسانه این پیام.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async edit(text=None, *, delay=0) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Edit this message's text.</div>
-                <div class="api-method-desc-fa">ویرایش متن این پیام.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async delete(*, delay=0) <span class="ret">-> bool</span></div>
+                <div class="api-method-name">async delete() <span class="ret">-> bool</span></div>
                 <div class="api-method-desc">Delete this message.</div>
                 <div class="api-method-desc-fa">حذف این پیام.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async forward(chat_id) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Forward to another chat (keeps forward header).</div>
-                <div class="api-method-desc-fa">فوروارد به چت دیگر (با هدر فوروارد).</div>
+                <div class="api-method-name">async forward(to_chat_id) <span class="ret">-> Message</span></div>
+                <div class="api-method-desc">Forward this message.</div>
+                <div class="api-method-desc-fa">فوروارد این پیام.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async copy(chat_id) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Copy to another chat (no forward header).</div>
-                <div class="api-method-desc-fa">کپی به چت دیگر (بدون هدر فوروارد).</div>
+                <div class="api-method-name">async copy(to_chat_id) <span class="ret">-> Message</span></div>
+                <div class="api-method-desc">Copy without forward header.</div>
+                <div class="api-method-desc-fa">کپی بدون هدر فوروارد.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">async pin(notify=True) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Pin this message in its chat.</div>
-                <div class="api-method-desc-fa">سنجاق کردن این پیام در چت.</div>
+                <div class="api-method-desc">Pin this message.</div>
+                <div class="api-method-desc-fa">سنجاق کردن پیام.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">async react(emoji) <span class="ret">-> bool</span></div>
@@ -691,208 +486,57 @@
                 <div class="api-method-desc-fa">علامت خواندن.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async download(file_path=None, *, progress=None) <span class="ret">-> str | None</span></div>
-                <div class="api-method-desc">Download attached media. Returns file path.</div>
-                <div class="api-method-desc-fa">دانلود رسانه پیوست. مسیر فایل را برمی‌گرداند.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async reply_photo(photo, caption=None) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Reply with a photo.</div>
-                <div class="api-method-desc-fa">پاسخ با عکس.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async reply_video(video, caption=None) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Reply with a video.</div>
-                <div class="api-method-desc-fa">پاسخ با ویدیو.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async reply_document(document, caption=None) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Reply with a document.</div>
-                <div class="api-method-desc-fa">پاسخ با سند.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async reply_voice(voice, caption=None) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Reply with a voice note.</div>
-                <div class="api-method-desc-fa">پاسخ با یادداشت صوتی.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async reply_sticker(sticker) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Reply with a sticker.</div>
-                <div class="api-method-desc-fa">پاسخ با استیکر.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async reply_location(lat, lon) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Reply with a location.</div>
-                <div class="api-method-desc-fa">پاسخ با موقعیت.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async reply_poll(question, options) <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Reply with a poll.</div>
-                <div class="api-method-desc-fa">پاسخ با نظرسنجی.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async reply_dice(emoji="&#127922;") <span class="ret">-> Message</span></div>
-                <div class="api-method-desc">Reply with a dice animation.</div>
-                <div class="api-method-desc-fa">پاسخ با انیمیشن تاس.</div>
+                <div class="api-method-name">async download(file=None, *, progress_callback=None) <span class="ret">-> str | bytes</span></div>
+                <div class="api-method-desc">Download attached media.</div>
+                <div class="api-method-desc-fa">دانلود رسانه پیوست.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">async get_reply_message() <span class="ret">-> Message | None</span></div>
-                <div class="api-method-desc">Fetch the full message this message replies to.</div>
-                <div class="api-method-desc-fa">دریافت پیام کاملی که به آن پاسخ داده شده.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async unblock_sender() <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Unblock the sender of this message.</div>
-                <div class="api-method-desc-fa">رفع مسدودیت فرستنده این پیام.</div>
-            </div>
-        </div>
-
-        <!-- ==================== USER ==================== -->
-        <div class="api-group fi" id="api-user">
-            <h3 class="api-group-title">User</h3>
-            <div class="api-params" style="margin-bottom:1rem"><table>
-                <tr><th>Field</th><th>Type</th><th>Description</th></tr>
-                <tr><td>id</td><td>int</td><td>Unique user identifier / شناسه یکتای کاربر</td></tr>
-                <tr><td>first_name</td><td>str</td><td>First name / نام</td></tr>
-                <tr><td>last_name</td><td>str</td><td>Last name / نام خانوادگی</td></tr>
-                <tr><td>username</td><td>str | None</td><td>Username without @ / نام کاربری</td></tr>
-                <tr><td>phone</td><td>str | None</td><td>Phone number / شماره تلفن</td></tr>
-                <tr><td>bio</td><td>str | None</td><td>Biography / بیوگرافی</td></tr>
-                <tr><td>is_bot</td><td>bool</td><td>Whether this is a bot / آیا ربات است</td></tr>
-                <tr><td>is_premium</td><td>bool</td><td>Premium subscription / اشتراک پریمیوم</td></tr>
-                <tr><td>status</td><td>UserStatus</td><td>Online status / وضعیت آنلاین</td></tr>
-            </table></div>
-            <div class="api-method">
-                <div class="api-method-name">Properties: full_name, mention, link</div>
-                <div class="api-method-desc">full_name: combined first+last name. mention: @username or full name. link: t.me profile URL.</div>
-                <div class="api-method-desc-fa">full_name: نام کامل. mention: @username یا نام. link: لینک پروفایل.</div>
-            </div>
-        </div>
-
-        <!-- ==================== CHAT ==================== -->
-        <div class="api-group fi" id="api-chat">
-            <h3 class="api-group-title">Chat</h3>
-            <div class="api-params" style="margin-bottom:1rem"><table>
-                <tr><th>Field</th><th>Type</th><th>Description</th></tr>
-                <tr><td>id</td><td>int</td><td>Unique chat identifier / شناسه چت</td></tr>
-                <tr><td>title</td><td>str</td><td>Chat title / عنوان چت</td></tr>
-                <tr><td>type</td><td>ChatType</td><td>PRIVATE, GROUP, SUPERGROUP, CHANNEL / نوع چت</td></tr>
-                <tr><td>username</td><td>str | None</td><td>Public username / نام کاربری عمومی</td></tr>
-                <tr><td>description</td><td>str | None</td><td>Description / توضیحات</td></tr>
-                <tr><td>member_count</td><td>int</td><td>Number of members / تعداد اعضا</td></tr>
-            </table></div>
-            <div class="api-method">
-                <div class="api-method-name">Properties: is_private, is_group, is_supergroup, is_channel, link, display_name</div>
-                <div class="api-method-desc">Convenience type checks and display properties.</div>
-                <div class="api-method-desc-fa">بررسی‌های نوع کمکی و ویژگی‌های نمایشی.</div>
-            </div>
-        </div>
-
-        <!-- ==================== BUTTON ==================== -->
-        <div class="api-group fi" id="api-button">
-            <h3 class="api-group-title">Button</h3>
-            <p style="color:var(--tx-1);margin-bottom:1rem;font-size:.9rem">Static factory methods for creating keyboard buttons.</p>
-            <div class="api-method">
-                <div class="api-method-name">Button.inline(text, callback_data) <span class="ret">-> InlineKeyboardButton</span></div>
-                <div class="api-method-desc">Create an inline button with callback data.</div>
-                <div class="api-method-desc-fa">ساخت دکمه اینلاین با داده بازخورد.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">Button.url(text, url) <span class="ret">-> InlineKeyboardButton</span></div>
-                <div class="api-method-desc">Create an inline button that opens a URL.</div>
-                <div class="api-method-desc-fa">ساخت دکمه اینلاین برای باز کردن لینک.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">Button.text(text, resize=True, one_time=False) <span class="ret">-> ReplyMarkup</span></div>
-                <div class="api-method-desc">Create a single-button reply keyboard.</div>
-                <div class="api-method-desc-fa">ساخت کیبورد ریپلای تک دکمه‌ای.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">Button.request_location(text) <span class="ret">-> KeyboardButton</span></div>
-                <div class="api-method-desc">Create a button that requests the user's location.</div>
-                <div class="api-method-desc-fa">ساخت دکمه برای درخواست موقعیت کاربر.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">Button.request_phone(text) <span class="ret">-> KeyboardButton</span></div>
-                <div class="api-method-desc">Create a button that requests the user's phone.</div>
-                <div class="api-method-desc-fa">ساخت دکمه برای درخواست شماره تلفن.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">Button.clear() <span class="ret">-> ReplyMarkup</span></div>
-                <div class="api-method-desc">Create markup that removes the current keyboard.</div>
-                <div class="api-method-desc-fa">ساخت مارک‌آپ برای حذف کیبورد فعلی.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">Button.build_inline(*rows) <span class="ret">-> ReplyMarkup</span></div>
-                <div class="api-method-desc">Build an inline keyboard from rows of buttons.</div>
-                <div class="api-method-desc-fa">ساخت کیبورد اینلاین از ردیف‌های دکمه.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">Button.build_reply(*rows, resize=True) <span class="ret">-> ReplyMarkup</span></div>
-                <div class="api-method-desc">Build a reply keyboard from rows of buttons.</div>
-                <div class="api-method-desc-fa">ساخت کیبورد ریپلای از ردیف‌های دکمه.</div>
+                <div class="api-method-desc">Fetch the message this replies to.</div>
+                <div class="api-method-desc-fa">دریافت پیامی که به آن پاسخ داده شده.</div>
             </div>
         </div>
 
         <!-- ==================== FILTERS ==================== -->
         <div class="api-group fi" id="api-filters">
             <h3 class="api-group-title">Filters</h3>
-            <p style="color:var(--tx-1);margin-bottom:1rem;font-size:.9rem">Composable predicates with &amp; (AND), | (OR), ~ (NOT).</p>
+            <p style="color:var(--tx-1);margin-bottom:1rem;font-size:.9rem">
+                Composable with <code>&amp;</code> (AND), <code>|</code> (OR), <code>~</code> (NOT).
+                <br><span style="font-family:'Vazirmatn',sans-serif;direction:rtl;color:var(--tx-2);font-size:.85rem">قابل ترکیب با عملگرهای &amp; و | و ~</span>
+            </p>
             <div class="api-params" style="margin-bottom:1rem"><table>
                 <tr><th>Filter</th><th>Matches</th><th>توضیحات</th></tr>
                 <tr><td>filters.private</td><td>Private chats</td><td>چت‌های خصوصی</td></tr>
                 <tr><td>filters.group</td><td>Groups / supergroups</td><td>گروه‌ها</td></tr>
                 <tr><td>filters.channel</td><td>Channels</td><td>کانال‌ها</td></tr>
+                <tr><td>filters.me</td><td>Sent by you</td><td>ارسال شده توسط شما</td></tr>
                 <tr><td>filters.text</td><td>Text messages</td><td>پیام‌های متنی</td></tr>
+                <tr><td>filters.link</td><td>Contains URL</td><td>حاوی لینک</td></tr>
+                <tr><td>filters.media</td><td>Any media</td><td>هر رسانه‌ای</td></tr>
                 <tr><td>filters.photo</td><td>Photos</td><td>عکس‌ها</td></tr>
                 <tr><td>filters.video</td><td>Videos</td><td>ویدیوها</td></tr>
-                <tr><td>filters.audio</td><td>Audio</td><td>صوت</td></tr>
-                <tr><td>filters.voice</td><td>Voice notes</td><td>یادداشت صوتی</td></tr>
                 <tr><td>filters.document</td><td>Documents</td><td>اسناد</td></tr>
+                <tr><td>filters.audio</td><td>Audio files</td><td>فایل صوتی</td></tr>
+                <tr><td>filters.voice</td><td>Voice notes</td><td>یادداشت صوتی</td></tr>
                 <tr><td>filters.sticker</td><td>Stickers</td><td>استیکرها</td></tr>
-                <tr><td>filters.animation</td><td>GIFs</td><td>گیف‌ها</td></tr>
-                <tr><td>filters.contact</td><td>Contacts</td><td>مخاطبین</td></tr>
-                <tr><td>filters.location</td><td>Locations</td><td>موقعیت‌ها</td></tr>
-                <tr><td>filters.poll</td><td>Polls</td><td>نظرسنجی‌ها</td></tr>
-                <tr><td>filters.dice</td><td>Dice</td><td>تاس</td></tr>
-                <tr><td>filters.media</td><td>Any media</td><td>هر رسانه‌ای</td></tr>
-                <tr><td>filters.reply</td><td>Replies</td><td>پاسخ‌ها</td></tr>
-                <tr><td>filters.forwarded</td><td>Forwarded</td><td>فوروارد شده</td></tr>
-                <tr><td>filters.me</td><td>Sent by you</td><td>ارسال شده توسط شما</td></tr>
-                <tr><td>filters.bot</td><td>Sent by bots</td><td>ارسال شده توسط ربات‌ها</td></tr>
-                <tr><td>filters.outgoing</td><td>Outgoing</td><td>ارسالی</td></tr>
-                <tr><td>filters.incoming</td><td>Incoming</td><td>دریافتی</td></tr>
-                <tr><td>filters.service</td><td>Service messages</td><td>پیام‌های سیستمی</td></tr>
+                <tr><td>filters.animation</td><td>GIF animations</td><td>گیف‌ها</td></tr>
+                <tr><td>filters.new_chat_members</td><td>New members joined</td><td>عضو جدید</td></tr>
+                <tr><td>filters.left_chat_member</td><td>Member left</td><td>عضو خارج شد</td></tr>
             </table></div>
             <div class="api-method">
-                <div class="api-method-name">filters.command(*commands, prefixes=None) <span class="ret">-> Command</span></div>
-                <div class="api-method-desc">Match /command or !command. Default prefixes: ["/", "!"].</div>
+                <div class="api-method-name">filters.command(commands, prefixes="/") <span class="ret">-> CommandFilter</span></div>
+                <div class="api-method-desc">Match /command or !command. Supports multiple prefixes.</div>
                 <div class="api-method-desc-fa">تطابق با /command یا !command.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">filters.regex(pattern, flags=0) <span class="ret">-> Regex</span></div>
-                <div class="api-method-desc">Match by regex. Match stored on message.pattern_match.</div>
-                <div class="api-method-desc-fa">تطابق با عبارت باقاعده. نتیجه در message.pattern_match ذخیره می‌شود.</div>
+                <div class="api-method-name">filters.regex(pattern) <span class="ret">-> RegexFilter</span></div>
+                <div class="api-method-desc">Match by regex. Stores match in <code>event.pattern_match</code>.</div>
+                <div class="api-method-desc-fa">تطابق با عبارت باقاعده.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">filters.user(*user_ids) <span class="ret">-> UserFilter</span></div>
-                <div class="api-method-desc">Match messages from specific users.</div>
-                <div class="api-method-desc-fa">تطابق با پیام‌های کاربران خاص.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">filters.chat(*chat_ids) <span class="ret">-> ChatFilter</span></div>
-                <div class="api-method-desc">Match messages from specific chats.</div>
-                <div class="api-method-desc-fa">تطابق با پیام‌های چت‌های خاص.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">filters.text_contains(substring, case_sensitive=True) <span class="ret">-> TextContains</span></div>
-                <div class="api-method-desc">Match messages containing a substring.</div>
-                <div class="api-method-desc-fa">تطابق با پیام‌های حاوی زیررشته.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">filters.length(min=0, max=999999) <span class="ret">-> Length</span></div>
-                <div class="api-method-desc">Match by message text length.</div>
-                <div class="api-method-desc-fa">تطابق بر اساس طول متن پیام.</div>
+                <div class="api-method-name">filters.word(words) <span class="ret">-> WordFilter</span></div>
+                <div class="api-method-desc">Match if any word in the list is present in the message.</div>
+                <div class="api-method-desc-fa">تطابق اگر هر کلمه‌ای از لیست در پیام باشد.</div>
             </div>
         </div>
 
@@ -900,337 +544,617 @@
         <div class="api-group fi" id="api-events">
             <h3 class="api-group-title">Events</h3>
             <div class="api-method">
-                <div class="api-method-name">Event.stop_propagation() <span class="ret">-> None</span></div>
-                <div class="api-method-desc">Stop the event from reaching subsequent handlers.</div>
-                <div class="api-method-desc-fa">توقف انتشار رویداد به هندلرهای بعدی.</div>
+                <div class="api-method-name">@client.on_message(filters=None) <span class="ret">-> Decorator</span></div>
+                <div class="api-method-desc">Register a handler for <code>NewMessage</code> events.</div>
+                <div class="api-method-desc-fa">ثبت هندلر برای رویداد پیام جدید.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">HandlerPriority</div>
-                <div class="api-method-desc">FIRST(0), HIGH(10), NORMAL(50), LOW(100), LAST(200). Lower values run first.</div>
-                <div class="api-method-desc-fa">اولویت‌های هندلر. مقادیر کمتر زودتر اجرا می‌شوند.</div>
+                <div class="api-method-name">@client.on_edited_message(filters=None) <span class="ret">-> Decorator</span></div>
+                <div class="api-method-desc">Register a handler for <code>MessageEdited</code> events.</div>
+                <div class="api-method-desc-fa">ثبت هندلر برای رویداد ویرایش پیام.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">NewMessage Event</div>
-                <div class="api-method-desc">Fields: message, pattern_match. Properties: text, chat_id, sender_id, is_private, is_group, is_channel, media, photo, video, sticker, forward_origin.</div>
-                <div class="api-method-desc-fa">رویداد پیام جدید با تمام فیلدها و ویژگی‌ها.</div>
+                <div class="api-method-name">@client.on_deleted_messages(filters=None) <span class="ret">-> Decorator</span></div>
+                <div class="api-method-desc">Register a handler for <code>MessageDeleted</code> events.</div>
+                <div class="api-method-desc-fa">ثبت هندلر برای رویداد حذف پیام.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">ErrorEvent</div>
-                <div class="api-method-desc">Fields: exception, handler, update. Properties: message, type.</div>
-                <div class="api-method-desc-fa">رویداد خطا با استثناء، هندلر و به‌روزرسانی اصلی.</div>
+                <div class="api-method-name">@client.on_chat_action(filters=None) <span class="ret">-> Decorator</span></div>
+                <div class="api-method-desc">Register a handler for <code>ChatAction</code> events (join/leave/pin/...).</div>
+                <div class="api-method-desc-fa">ثبت هندلر برای رویدادهای عملیات چت.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">ChatAction Event</div>
-                <div class="api-method-desc">Properties: is_join, is_leave, is_pin, user_name.</div>
-                <div class="api-method-desc-fa">رویداد عمل چت: پیوستن، خروج، سنجاق.</div>
+                <div class="api-method-name">@client.on_user_status(filters=None) <span class="ret">-> Decorator</span></div>
+                <div class="api-method-desc">Register a handler for <code>UserUpdate</code> (online/offline/typing).</div>
+                <div class="api-method-desc-fa">ثبت هندلر برای تغییر وضعیت کاربر.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">UserUpdate Event</div>
-                <div class="api-method-desc">Properties: is_online, is_offline.</div>
-                <div class="api-method-desc-fa">رویداد به‌روزرسانی وضعیت کاربر.</div>
+                <div class="api-method-name">@client.on_raw_update(types=None) <span class="ret">-> Decorator</span></div>
+                <div class="api-method-desc">Register a handler for raw, unparsed updates.</div>
+                <div class="api-method-desc-fa">ثبت هندلر برای رویدادهای خام.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">MessageDeleted Event</div>
-                <div class="api-method-desc">Fields: deleted_ids, chat_id.</div>
-                <div class="api-method-desc-fa">رویداد حذف پیام.</div>
+                <div class="api-method-name">@client.on_group(filters=None) <span class="ret">-> Decorator</span></div>
+                <div class="api-method-desc">Alias for <code>on_message(filters.group &amp; filters)</code>.</div>
+                <div class="api-method-desc-fa">مخفف برای پیام‌های گروهی.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">MessageRead Event</div>
-                <div class="api-method-desc">Fields: read_ids, chat_id, max_id.</div>
-                <div class="api-method-desc-fa">رویداد خواندن پیام.</div>
+                <div class="api-method-name">@client.on_channel(filters=None) <span class="ret">-> Decorator</span></div>
+                <div class="api-method-desc">Alias for <code>on_message(filters.channel &amp; filters)</code>.</div>
+                <div class="api-method-desc-fa">مخفف برای پیام‌های کانال.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">@client.on_me(filters=None) <span class="ret">-> Decorator</span></div>
+                <div class="api-method-desc">Alias for <code>on_message(filters.me &amp; filters)</code>.</div>
+                <div class="api-method-desc-fa">مخفف برای پیام‌های ارسالی خودتان.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">events.Album(chats=None, func=None) <span class="ret">-> Album</span></div>
+                <div class="api-method-desc">Event for album (grouped media). <code>event.messages</code> contains the list.</div>
+                <div class="api-method-desc-fa">رویداد آلبوم (چند رسانه‌ای گروهی).</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">events.Raw(types=None, func=None) <span class="ret">-> Raw</span></div>
+                <div class="api-method-desc">Raw update event. Pass <code>types</code> to filter by TL type.</div>
+                <div class="api-method-desc-fa">رویداد خام. با <code>types</code> می‌توان فیلتر کرد.</div>
             </div>
         </div>
 
-        <!-- ==================== FSM ==================== -->
+        <!-- ==================== CONVERSATION ==================== -->
+        <div class="api-group fi" id="api-conversation">
+            <h3 class="api-group-title">Conversation</h3>
+            <p style="color:var(--tx-1);margin-bottom:1rem;font-size:.9rem">
+                Used with <code>async with client.conversation(peer) as conv:</code>
+                <br><span style="font-family:'Vazirmatn',sans-serif;direction:rtl;color:var(--tx-2);font-size:.85rem">استفاده با <code>async with</code></span>
+            </p>
+            <div class="api-method">
+                <div class="api-method-name">async send_message(text, **kwargs) <span class="ret">-> Message</span></div>
+                <div class="api-method-desc">Send a message in this conversation.</div>
+                <div class="api-method-desc-fa">ارسال پیام در این مکالمه.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async get_response(timeout=None) <span class="ret">-> Message</span></div>
+                <div class="api-method-desc">Wait for the next incoming message.</div>
+                <div class="api-method-desc-fa">انتظار پیام بعدی.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async get_reply(timeout=None) <span class="ret">-> Message</span></div>
+                <div class="api-method-desc">Wait for a message that explicitly replies to your last message.</div>
+                <div class="api-method-desc-fa">انتظار پیامی که به‌طور مستقیم پاسخ داده باشد.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async get_edit(timeout=None) <span class="ret">-> Message</span></div>
+                <div class="api-method-desc">Wait for an edit to your last message.</div>
+                <div class="api-method-desc-fa">انتظار ویرایش پیام.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async wait_read(timeout=None) <span class="ret">-> bool</span></div>
+                <div class="api-method-desc">Wait until your message is marked as read.</div>
+                <div class="api-method-desc-fa">انتظار تا خوانده شدن پیام.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async wait_event(event, timeout=None) <span class="ret">-> Event</span></div>
+                <div class="api-method-desc">Wait for a custom event.</div>
+                <div class="api-method-desc-fa">انتظار رویداد سفارشی.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">mark_read(message=None) <span class="ret">-> bool</span></div>
+                <div class="api-method-desc">Mark messages as read.</div>
+                <div class="api-method-desc-fa">علامت خواندن.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">cancel() <span class="ret">-> None</span></div>
+                <div class="api-method-desc">Cancel the conversation. Synchronous.</div>
+                <div class="api-method-desc-fa">لغو مکالمه. همزمان.</div>
+            </div>
+        </div>
+
+        <!-- ==================== BUTTON ==================== -->
+        <div class="api-group fi" id="api-button">
+            <h3 class="api-group-title">Button</h3>
+            <div class="api-method">
+                <div class="api-method-name">Button.inline(text, data=None) <span class="ret">-> KeyboardButtonCallback</span></div>
+                <div class="api-method-desc">Inline button with callback data (max 64 bytes).</div>
+                <div class="api-method-desc-fa">دکمه اینلاین با داده بازخورد.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">Button.url(text, url=None) <span class="ret">-> KeyboardButtonUrl</span></div>
+                <div class="api-method-desc">Button that opens a URL.</div>
+                <div class="api-method-desc-fa">دکمه برای باز کردن لینک.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">Button.text(text, *, resize=None, single_use=None, selective=None, persistent=None, placeholder=None) <span class="ret">-> Button</span></div>
+                <div class="api-method-desc">Reply keyboard button.</div>
+                <div class="api-method-desc-fa">دکمه کیبورد ریپلای.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">Button.request_location(text, **kwargs) <span class="ret">-> Button</span></div>
+                <div class="api-method-desc">Button that requests the user's location.</div>
+                <div class="api-method-desc-fa">درخواست موقعیت کاربر.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">Button.request_phone(text, **kwargs) <span class="ret">-> Button</span></div>
+                <div class="api-method-desc">Button that requests the user's phone.</div>
+                <div class="api-method-desc-fa">درخواست شماره تلفن.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">Button.request_poll(text, *, force_quiz=False, **kwargs) <span class="ret">-> Button</span></div>
+                <div class="api-method-desc">Button that requests the user to create a poll.</div>
+                <div class="api-method-desc-fa">درخواست ساخت نظرسنجی.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">Button.clear(selective=None) <span class="ret">-> ReplyKeyboardHide</span></div>
+                <div class="api-method-desc">Clear the reply keyboard.</div>
+                <div class="api-method-desc-fa">پاک کردن کیبورد.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">Button.force_reply(single_use=None, selective=None, placeholder=None) <span class="ret">-> ReplyKeyboardForceReply</span></div>
+                <div class="api-method-desc">Force a reply to the message.</div>
+                <div class="api-method-desc-fa">اجبار به پاسخ.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">Button.buy(text) <span class="ret">-> KeyboardButtonBuy</span></div>
+                <div class="api-method-desc">Buy button for payments.</div>
+                <div class="api-method-desc-fa">دکمه خرید.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">Button.game(text) <span class="ret">-> KeyboardButtonGame</span></div>
+                <div class="api-method-desc">Game button.</div>
+                <div class="api-method-desc-fa">دکمه بازی.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">Button.switch_inline(text, query='', same_peer=False) <span class="ret">-> KeyboardButtonSwitchInline</span></div>
+                <div class="api-method-desc">Switch to inline query.</div>
+                <div class="api-method-desc-fa">تغییر به جستجوی اینلاین.</div>
+            </div>
+        </div>
+
+        <!-- ==================== DIALOGS ==================== -->
+        <div class="api-group fi" id="api-dialogs">
+            <h3 class="api-group-title">Dialog Methods</h3>
+            <div class="api-method">
+                <div class="api-method-name">iter_dialogs(limit=None, *, offset_date=None, offset_id=0, offset_peer=InputPeerEmpty(), ignore_pinned=False, ignore_migrated=False, folder=None) <span class="ret">-> AsyncGenerator[Dialog]</span></div>
+                <div class="api-method-desc">Iterate over dialogs (conversations).</div>
+                <div class="api-method-desc-fa">پیمایش دیالوگ‌ها.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async get_dialogs(limit=None, **kwargs) <span class="ret">-> TotalList[Dialog]</span></div>
+                <div class="api-method-desc">Get all dialogs as a list.</div>
+                <div class="api-method-desc-fa">دریافت لیست دیالوگ‌ها.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">iter_drafts(entity=None) <span class="ret">-> AsyncGenerator[Draft]</span></div>
+                <div class="api-method-desc">Iterate over drafts.</div>
+                <div class="api-method-desc-fa">پیمایش پیش‌نویس‌ها.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async edit_folder(entity, folder, *, unpack=None) <span class="ret">-> Updates</span></div>
+                <div class="api-method-desc">Move dialogs to a folder (archive/unarchive).</div>
+                <div class="api-method-desc-fa">انتقال دیالوگ به پوشه.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async delete_dialog(entity, *, revoke=False) <span class="ret">-> Updates | None</span></div>
+                <div class="api-method-desc">Delete a dialog (leave chat).</div>
+                <div class="api-method-desc-fa">حذف دیالوگ (خروج از چت).</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">conversation(entity, *, timeout=60, total_timeout=None, max_messages=100, exclusive=True) <span class="ret">-> Conversation</span></div>
+                <div class="api-method-desc">Create a conversation context manager.</div>
+                <div class="api-method-desc-fa">ساخت مدیر زمینه مکالمه.</div>
+            </div>
+        </div>
+
+        <!-- ==================== CHATS ==================== -->
+        <div class="api-group fi" id="api-chats">
+            <h3 class="api-group-title">Chat Methods</h3>
+            <div class="api-method">
+                <div class="api-method-name">iter_participants(entity, limit=None, *, search='', filter=None) <span class="ret">-> AsyncGenerator[User]</span></div>
+                <div class="api-method-desc">Iterate over chat participants.</div>
+                <div class="api-method-desc-fa">پیمایش اعضای چت.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async get_participants(entity, limit=None, **kwargs) <span class="ret">-> TotalList[User]</span></div>
+                <div class="api-method-desc">Get all participants as a list.</div>
+                <div class="api-method-desc-fa">دریافت لیست اعضا.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">iter_admin_log(entity, limit=None, *, search=None, admins=None, **filters) <span class="ret">-> AsyncGenerator[AdminLogEvent]</span></div>
+                <div class="api-method-desc">Iterate over admin log events.</div>
+                <div class="api-method-desc-fa">پیمایش لاگ مدیریتی.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async edit_admin(entity, user, *, change_info=None, post_messages=None, delete_messages=None, ban_users=None, invite_users=None, pin_messages=None, add_admins=None, anonymous=None, is_admin=None, title=None) <span class="ret">-> Updates</span></div>
+                <div class="api-method-desc">Edit admin permissions.</div>
+                <div class="api-method-desc-fa">ویرایش دسترسی‌های ادمین.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async edit_permissions(entity, user=None, until_date=None, *, view_messages=True, send_messages=True, send_media=True, ...) <span class="ret">-> Updates</span></div>
+                <div class="api-method-desc">Edit user restrictions (ban/mute).</div>
+                <div class="api-method-desc-fa">ویرایش محدودیت‌های کاربر.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async leave_chat(entity) <span class="ret">-> Updates | bool</span></div>
+                <div class="api-method-desc">Leave a chat or channel.</div>
+                <div class="api-method-desc-fa">خروج از چت.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async kick_participant(entity, user) <span class="ret">-> Message | None</span></div>
+                <div class="api-method-desc">Kick a user from a chat.</div>
+                <div class="api-method-desc-fa">اخراج کاربر از چت.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async get_permissions(entity, user=None) <span class="ret">-> ParticipantPermissions | ChatBannedRights</span></div>
+                <div class="api-method-desc">Get permissions of a user or default rights.</div>
+                <div class="api-method-desc-fa">دریافت دسترسی‌های کاربر.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">action(entity, action, *, delay=4, auto_cancel=True) <span class="ret">-> ChatAction | Coroutine</span></div>
+                <div class="api-method-desc">Send a chat action (typing, uploading, etc.).</div>
+                <div class="api-method-desc-fa">ارسال وضعیت چت (تایپ، آپلود و...).</div>
+            </div>
+        </div>
+
+        <!-- ==================== UPLOADS ==================== -->
+        <div class="api-group fi" id="api-uploads">
+            <h3 class="api-group-title">Upload Methods</h3>
+            <div class="api-method">
+                <div class="api-method-name">async upload_file(file, *, part_size_kb=None, file_size=None, file_name=None, progress_callback=None) <span class="ret">-> InputFile</span></div>
+                <div class="api-method-desc">Upload a file to Soroush Plus servers.</div>
+                <div class="api-method-desc-fa">آپلود فایل به سرور سروش پلاس.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async send_file(entity, file, *, caption=None, force_document=False, progress_callback=None, reply_to=None, attributes=None, thumb=None, voice_note=False, video_note=False, buttons=None, silent=None, schedule=None, ttl=None, **kwargs) <span class="ret">-> Message | list[Message]</span></div>
+                <div class="api-method-desc">Send a file (photo, video, document, audio, etc.). Supports albums with a list.</div>
+                <div class="api-method-desc-fa">ارسال فایل (عکس، ویدیو، سند و...). پشتیبانی از آلبوم.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async send_photo(chat_id, photo, *, caption=None, reply_to=None, **kwargs) <span class="ret">-> Message</span></div>
+                <div class="api-method-desc">Send a photo (convenience wrapper).</div>
+                <div class="api-method-desc-fa">ارسال عکس.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async send_video(chat_id, video, *, caption=None, reply_to=None, **kwargs) <span class="ret">-> Message</span></div>
+                <div class="api-method-desc">Send a video.</div>
+                <div class="api-method-desc-fa">ارسال ویدیو.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async send_audio(chat_id, audio, *, caption=None, reply_to=None, **kwargs) <span class="ret">-> Message</span></div>
+                <div class="api-method-desc">Send an audio file.</div>
+                <div class="api-method-desc-fa">ارسال فایل صوتی.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async send_voice(chat_id, voice, *, caption=None, reply_to=None, **kwargs) <span class="ret">-> Message</span></div>
+                <div class="api-method-desc">Send a voice note.</div>
+                <div class="api-method-desc-fa">ارسال یادداشت صوتی.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async send_document(chat_id, document, *, caption=None, reply_to=None, **kwargs) <span class="ret">-> Message</span></div>
+                <div class="api-method-desc">Send a document.</div>
+                <div class="api-method-desc-fa">ارسال سند.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async send_reaction(chat_id, message_id, emoji, **kwargs) <span class="ret">-> Updates</span></div>
+                <div class="api-method-desc">Add a reaction to a message.</div>
+                <div class="api-method-desc-fa">افزودن واکنش به پیام.</div>
+            </div>
+        </div>
+
+        <!-- ==================== DOWNLOADS ==================== -->
+        <div class="api-group fi" id="api-downloads">
+            <h3 class="api-group-title">Download Methods</h3>
+            <div class="api-method">
+                <div class="api-method-name">async download_media(message, file=None, *, thumb=None, progress_callback=None) <span class="ret">-> str | bytes | None</span></div>
+                <div class="api-method-desc">Download media from a message.</div>
+                <div class="api-method-desc-fa">دانلود رسانه از پیام.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async download_file(input_location, file=None, *, part_size_kb=None, file_size=None, progress_callback=None, dc_id=None, key=None, iv=None) <span class="ret">-> bytes | str</span></div>
+                <div class="api-method-desc">Low-level file download.</div>
+                <div class="api-method-desc-fa">دانلود فایل سطح پایین.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">iter_download(file, *, offset=0, stride=None, limit=None, chunk_size=None, request_size=512*1024, file_size=None, dc_id=None) <span class="ret">-> AsyncGenerator[bytes]</span></div>
+                <div class="api-method-desc">Stream a file download chunk by chunk.</div>
+                <div class="api-method-desc-fa">پخش فایل به صورت تکه‌تکه.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async download_profile_photo(entity, file=None, *, download_big=True) <span class="ret">-> str | bytes | None</span></div>
+                <div class="api-method-desc">Download a user/chat/channel profile photo.</div>
+                <div class="api-method-desc-fa">دانلود عکس پروفایل.</div>
+            </div>
+        </div>
+
+        <!-- ==================== EXTRA ==================== -->
+        <div class="api-group fi" id="api-extra">
+            <h3 class="api-group-title">Extra Methods</h3>
+            <div class="api-method">
+                <div class="api-method-name">async copy_message(chat_id, from_chat_id, message_id, **kwargs) <span class="ret">-> Message</span></div>
+                <div class="api-method-desc">Copy a message without "Forwarded from" tag.</div>
+                <div class="api-method-desc-fa">کپی پیام بدون تگ فوروارد.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async read_chat_history(chat_id) <span class="ret">-> bool</span></div>
+                <div class="api-method-desc">Mark all messages in a chat as read.</div>
+                <div class="api-method-desc-fa">علامت خواندن همه پیام‌های چت.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async get_chat(chat_id) <span class="ret">-> ChatFull | ChannelFull</span></div>
+                <div class="api-method-desc">Get full chat information.</div>
+                <div class="api-method-desc-fa">دریافت اطلاعات کامل چت.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async get_user(user_id) <span class="ret">-> User | None</span></div>
+                <div class="api-method-desc">Get full user information.</div>
+                <div class="api-method-desc-fa">دریافت اطلاعات کامل کاربر.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async create_group(title, users) <span class="ret">-> Updates</span></div>
+                <div class="api-method-desc">Create a new group chat.</div>
+                <div class="api-method-desc-fa">ساخت گروه جدید.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async create_channel(title, about='', megagroup=False) <span class="ret">-> Updates</span></div>
+                <div class="api-method-desc">Create a channel or megagroup.</div>
+                <div class="api-method-desc-fa">ساخت کانال یا سوپرگروه.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async archive_chat(chat_id) <span class="ret">-> Updates</span></div>
+                <div class="api-method-desc">Archive a chat.</div>
+                <div class="api-method-desc-fa">بایگانی چت.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async unarchive_chat(chat_id) <span class="ret">-> Updates</span></div>
+                <div class="api-method-desc">Unarchive a chat.</div>
+                <div class="api-method-desc-fa">خروج از بایگانی چت.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async join_chat(chat) <span class="ret">-> Chat | Updates</span></div>
+                <div class="api-method-desc">Join a chat by invite link or username.</div>
+                <div class="api-method-desc-fa">پیوستن به چت با لینک یا نام کاربری.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async update_profile(first_name=None, last_name=None, about=None) <span class="ret">-> User</span></div>
+                <div class="api-method-desc">Update current user's profile.</div>
+                <div class="api-method-desc-fa">به‌روزرسانی پروفایل کاربر فعلی.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async update_username(username) <span class="ret">-> User</span></div>
+                <div class="api-method-desc">Update current user's username.</div>
+                <div class="api-method-desc-fa">تغییر نام کاربری.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async block_user(user_id) <span class="ret">-> bool</span></div>
+                <div class="api-method-desc">Block a user.</div>
+                <div class="api-method-desc-fa">مسدود کردن کاربر.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async unblock_user(user_id) <span class="ret">-> bool</span></div>
+                <div class="api-method-desc">Unblock a user.</div>
+                <div class="api-method-desc-fa">رفع مسدودیت کاربر.</div>
+            </div>
+        </div>
+
+        <!-- ==================== AUTH ==================== -->
+        <div class="api-group fi" id="api-auth">
+            <h3 class="api-group-title">Auth Methods</h3>
+            <div class="api-method">
+                <div class="api-method-name">start(phone=None, password=None, *, code_callback=None, first_name='New User', last_name='', max_attempts=3) <span class="ret">-> Self</span></div>
+                <div class="api-method-desc">Interactive authentication flow.</div>
+                <div class="api-method-desc-fa">جریان احراز هویت تعاملی.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async sign_in(phone=None, code=None, *, password=None, phone_code_hash=None) <span class="ret">-> User | None</span></div>
+                <div class="api-method-desc">Sign in with phone and code, or password.</div>
+                <div class="api-method-desc-fa">ورود با شماره و کد یا رمز.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async sign_up(code, first_name, last_name='', *, phone=None, phone_code_hash=None) <span class="ret">-> User</span></div>
+                <div class="api-method-desc">Sign up (not supported for third-party apps).</div>
+                <div class="api-method-desc-fa">ثبت‌نام (پشتیبانی نمی‌شود).</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async send_code_request(phone, *, code_callback=None) <span class="ret">-> SentCode</span></div>
+                <div class="api-method-desc">Send a confirmation code to the phone.</div>
+                <div class="api-method-desc-fa">ارسال کد تأیید به تلفن.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async log_out() <span class="ret">-> bool</span></div>
+                <div class="api-method-desc">Log out and delete the session.</div>
+                <div class="api-method-desc-fa">خروج و حذف نشست.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async edit_2fa(current_password=None, new_password=None, *, hint='', email=None, email_code_callback=None) <span class="ret">-> bool</span></div>
+                <div class="api-method-desc">Enable or change two-factor authentication.</div>
+                <div class="api-method-desc-fa">فعال یا تغییر احراز هویت دو مرحله‌ای.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async qr_login(ignored_ids=None) <span class="ret">-> QRLogin</span></div>
+                <div class="api-method-desc">Login via QR code (not supported for bots).</div>
+                <div class="api-method-desc-fa">ورود با QR (پشتیبانی نمی‌شود).</div>
+            </div>
+        </div>
+
+        <!-- ==================== ACCOUNT ==================== -->
+        <div class="api-group fi" id="api-account">
+            <h3 class="api-group-title">Account Methods</h3>
+            <div class="api-method">
+                <div class="api-method-name">takeout(finalize=True, *, contacts=None, users=None, chats=None, megagroups=None, channels=None, files=None, max_file_size=None) <span class="ret">-> TakeoutClient</span></div>
+                <div class="api-method-desc">Create a takeout session for data export (lower flood limits).</div>
+                <div class="api-method-desc-fa">ایجاد نشست Takeout برای خروجی داده.</div>
+            </div>
+            <div class="api-method">
+                <div class="api-method-name">async end_takeout(success) <span class="ret">-> bool</span></div>
+                <div class="api-method-desc">Finish the current takeout session.</div>
+                <div class="api-method-desc-fa">پایان نشست Takeout.</div>
+            </div>
+        </div>
+
+        <!-- ==================== FSM (خلاصه) ==================== -->
         <div class="api-group fi" id="api-fsm">
             <h3 class="api-group-title">FSM (Finite State Machine)</h3>
             <div class="api-method">
                 <div class="api-method-name">State(name=None) <span class="ret">-> State</span></div>
                 <div class="api-method-desc">Define a state. Auto-named from class attribute.</div>
-                <div class="api-method-desc-fa">تعریف وضعیت. نام‌گذاری خودکار از ویژگی کلاس.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">StateTransition(target, guard=None)</div>
-                <div class="api-method-desc">Define a transition with optional async guard function.</div>
-                <div class="api-method-desc-fa">تعریف انتقال با تابع محافظ اختیاری.</div>
+                <div class="api-method-name">StateTransition(target, guard=None) <span class="ret">-> StateTransition</span></div>
+                <div class="api-method-desc">Define a transition with optional async guard.</div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">FSMContext.get_state() <span class="ret">-> State | None</span></div>
-                <div class="api-method-desc">Get current state for a user.</div>
-                <div class="api-method-desc-fa">دریافت وضعیت فعلی کاربر.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">FSMContext.set_state(state) <span class="ret">-> None</span></div>
-                <div class="api-method-desc">Set current state. Pass None to clear.</div>
-                <div class="api-method-desc-fa">تنظیم وضعیت فعلی. None برای پاک کردن.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">FSMContext.get_data() <span class="ret">-> dict</span></div>
-                <div class="api-method-desc">Get all stored data for the user.</div>
-                <div class="api-method-desc-fa">دریافت تمام داده‌های ذخیره شده کاربر.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">FSMContext.set_data(**kwargs) <span class="ret">-> None</span></div>
-                <div class="api-method-desc">Update stored data with key-value pairs.</div>
-                <div class="api-method-desc-fa">به‌روزرسانی داده‌های ذخیره شده.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">FSMContext.get(key, default=None) <span class="ret">-> Any</span></div>
-                <div class="api-method-desc">Get a single data value by key.</div>
-                <div class="api-method-desc-fa">دریافت یک مقدار داده با کلید.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">FSMContext.set(key, value) <span class="ret">-> None</span></div>
-                <div class="api-method-desc">Set a single data value.</div>
-                <div class="api-method-desc-fa">تنظیم یک مقدار داده.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">FSMContext.reset() / finish() <span class="ret">-> None</span></div>
-                <div class="api-method-desc">Clear state and all data for the user.</div>
-                <div class="api-method-desc-fa">پاک کردن وضعیت و تمام داده‌های کاربر.</div>
+                <div class="api-method-name">FSMContext.get_state() / set_state(state) / get_data() / set_data(**kwargs) / get(key) / set(key, value) / reset() / finish()</div>
+                <div class="api-method-desc">Context for user state and data.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">StateMachine.state(state) <span class="ret">-> Decorator</span></div>
                 <div class="api-method-desc">Register a handler for a specific state.</div>
-                <div class="api-method-desc-fa">ثبت هندلر برای یک وضعیت خاص.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">StateMachine.context(user_id) <span class="ret">-> FSMContext</span></div>
-                <div class="api-method-desc">Create an FSMContext for a specific user.</div>
-                <div class="api-method-desc-fa">ساخت FSMContext برای یک کاربر خاص.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">StateMachine.fallback() <span class="ret">-> Decorator</span></div>
                 <div class="api-method-desc">Register a handler for unmatched states.</div>
-                <div class="api-method-desc-fa">ثبت هندلر برای وضعیت‌های بدون هندلر.</div>
             </div>
         </div>
 
-        <!-- ==================== STORAGE ==================== -->
+        <!-- ==================== STORAGE (خلاصه) ==================== -->
         <div class="api-group fi" id="api-storage">
             <h3 class="api-group-title">Storage Backends</h3>
             <div class="api-params" style="margin-bottom:1rem"><table>
                 <tr><th>Backend</th><th>Class</th><th>Description</th></tr>
-                <tr><td>Memory</td><td>MemoryStorage()</td><td>In-memory, non-persistent / حافظه، غیردائمی</td></tr>
-                <tr><td>SQLite</td><td>SQLiteStorage(path)</td><td>Persistent file-based / مبتنی بر فایل</td></tr>
-                <tr><td>Redis</td><td>RedisStorage(url)</td><td>Shared state (requires redis) / حالت مشترک</td></tr>
-                <tr><td>PostgreSQL</td><td>PostgresStorage(dsn)</td><td>Enterprise (requires asyncpg) / سازمانی</td></tr>
+                <tr><td>Memory</td><td>MemoryStorage()</td><td>In-memory, non-persistent</td></tr>
+                <tr><td>SQLite</td><td>SQLiteStorage(path)</td><td>Persistent file-based</td></tr>
+                <tr><td>Redis</td><td>RedisStorage(url)</td><td>Shared state (requires redis)</td></tr>
+                <tr><td>PostgreSQL</td><td>PostgresStorage(dsn)</td><td>Enterprise (requires asyncpg)</td></tr>
             </table></div>
             <div class="api-method">
                 <div class="api-method-name">get_storage(backend="memory", **kwargs) <span class="ret">-> Storage</span></div>
-                <div class="api-method-desc">Factory function. Create storage by name: "memory", "sqlite", "redis", "postgres".</div>
-                <div class="api-method-desc-fa">تابع کارخانه. ساخت storage با نام.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">Storage.get(key) / set(key, value, ttl=None) / delete(key) / exists(key) / clear()</div>
-                <div class="api-method-desc">Standard key-value operations. All async. TTL in seconds for auto-expiration.</div>
-                <div class="api-method-desc-fa">عملیات کلید-مقدار استاندارد. همه ناهمگام. TTL برای انقضا خودکار.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">EntityCache (storage)</div>
-                <div class="api-method-desc">SQLite-backed peer resolution cache. Methods: get, get_by_username, get_by_phone, put, put_entity, put_many, remove, clear, count.</div>
-                <div class="api-method-desc-fa">کش حل‌کننده همتا مبتنی بر SQLite.</div>
+                <div class="api-method-desc">Factory function: "memory", "sqlite", "redis", "postgres".</div>
             </div>
         </div>
 
-        <!-- ==================== MIDDLEWARE ==================== -->
+        <!-- ==================== MIDDLEWARE (خلاصه) ==================== -->
         <div class="api-group fi" id="api-middleware">
             <h3 class="api-group-title">Middleware</h3>
             <div class="api-method">
                 <div class="api-method-name">Middleware.on_update(update, handler) <span class="ret">-> Any</span></div>
-                <div class="api-method-desc">Abstract method. Process every update through the middleware chain.</div>
-                <div class="api-method-desc-fa">روش انتزاعی. پردازش هر به‌روزرسانی از زنجیره میان‌افزار.</div>
+                <div class="api-method-desc">Abstract method. Process every update.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">MiddlewareManager.add(mw) / remove(mw) / execute(update, handler)</div>
-                <div class="api-method-desc">Manage middleware chain. FIFO order with error isolation.</div>
-                <div class="api-method-desc-fa">مدیریت زنجیره میان‌افزار. ترتیب FIFO با جداسازی خطا.</div>
+                <div class="api-method-desc">Manage middleware chain.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">RateLimitMiddleware(rate=1.0, capacity=1.0)</div>
-                <div class="api-method-desc">Rate limiting middleware. Methods: on_update, handle_flood_wait, get_stats.</div>
-                <div class="api-method-desc-fa">میان‌افزار محدودیت نرخ. روش‌ها: on_update, handle_flood_wait, get_stats.</div>
+                <div class="api-method-desc">Rate limiting middleware with token bucket.</div>
             </div>
         </div>
 
-        <!-- ==================== AFK ==================== -->
+        <!-- ==================== AFK (خلاصه) ==================== -->
         <div class="api-group fi" id="api-afk">
             <h3 class="api-group-title">AfkManager</h3>
-            <p style="color:var(--tx-1);margin-bottom:1rem;font-size:.9rem">
-                Smart auto-responder for AFK mode with per-chat rate limiting.
-                <br><span style="font-family:'Vazirmatn',sans-serif;direction:rtl;color:var(--tx-2);font-size:.85rem">پاسخگوی خودکار هوشمند حالت AFK با محدودیت نرخ به ازای هر چت</span>
-            </p>
             <div class="api-method">
                 <div class="api-method-name">AfkManager(client, message="...", *, cooldown=60.0, max_replies=10, only_private=False)</div>
-                <div class="api-method-desc">Create an AFK manager with configurable auto-reply, cooldown, and limits.</div>
-                <div class="api-method-desc-fa">ساخت مدیر AFK با پاسخ خودکار تنظیم شده، تایم‌اوت و محدودیت‌ها.</div>
+                <div class="api-method-desc">AFK auto-responder manager.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">set_afk(enabled, *, reason="", message=None) <span class="ret">-> None</span></div>
-                <div class="api-method-desc">Enable or disable AFK mode with optional reason and custom message.</div>
-                <div class="api-method-desc-fa">فعال/غیرفعال کردن حالت AFK با دلیل و پیام سفارشی.</div>
+                <div class="api-method-desc">Enable/disable AFK mode.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">async handle(message) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Process incoming message while AFK. Returns True if reply was sent.</div>
-                <div class="api-method-desc-fa">پردازش پیام دریافتی در حالت AFK. True اگر پاسخ ارسال شده باشد.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">Properties: is_afk, afk_reason, afk_since, total_replies</div>
-                <div class="api-method-desc">Check AFK status and statistics.</div>
-                <div class="api-method-desc-fa">بررسی وضعیت و آمار AFK.</div>
+                <div class="api-method-desc">Process incoming message while AFK.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">get_stats() <span class="ret">-> dict</span></div>
-                <div class="api-method-desc">Returns: is_afk, afk_reason, afk_since, total_replies, active_chats, cooldown, max_replies.</div>
-                <div class="api-method-desc-fa">برگرداندن آمار کامل AFK.</div>
+                <div class="api-method-desc">Returns AFK stats.</div>
             </div>
         </div>
 
-        <!-- ==================== CHATADMIN ==================== -->
+        <!-- ==================== CHATADMIN (خلاصه) ==================== -->
         <div class="api-group fi" id="api-admin">
             <h3 class="api-group-title">ChatAdmin</h3>
-            <p style="color:var(--tx-1);margin-bottom:1rem;font-size:.9rem">High-level chat administration API with batch operations.</p>
             <div class="api-method">
-                <div class="api-method-name">async ban_user(chat_id, user_id, *, delete_messages=False) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Ban a user. Optionally delete their recent messages.</div>
-                <div class="api-method-desc-fa">مسدود کردن کاربر. حذف اختیاری پیام‌های اخیر.</div>
+                <div class="api-method-name">async ban_user(chat, user, until_date=None) <span class="ret">-> Updates</span></div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async unban_user(chat_id, user_id) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Unban a user.</div>
-                <div class="api-method-desc-fa">رفع مسدودیت کاربر.</div>
+                <div class="api-method-name">async mute_user(chat, user, until_date=None) <span class="ret">-> Updates</span></div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async mute_user(chat_id, user_id, *, duration=None) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Mute a user. duration in seconds; None = permanent.</div>
-                <div class="api-method-desc-fa">بی‌صدا کردن کاربر. مدت به ثانیه؛ None = دائمی.</div>
+                <div class="api-method-name">async unmute_user(chat, user) <span class="ret">-> Updates</span></div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async unmute_user(chat_id, user_id) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Unmute a user.</div>
-                <div class="api-method-desc-fa">رفع بی‌صدایی کاربر.</div>
+                <div class="api-method-name">async purge_messages(chat, limit=100) <span class="ret">-> AffectedMessages | None</span></div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async purge_messages(chat_id, *, limit=100) <span class="ret">-> int</span></div>
-                <div class="api-method-desc">Delete a batch of messages. Returns count deleted.</div>
-                <div class="api-method-desc-fa">حذف دسته‌ای پیام‌ها. تعداد حذف شده را برمی‌گرداند.</div>
+                <div class="api-method-name">async bulk_action(chat, action, user_ids, *, delay=0.5) <span class="ret">-> dict[int, bool]</span></div>
             </div>
             <div class="api-method">
-                <div class="api-method-name">async pin_message / unpin_message / unpin_all(chat_id)</div>
-                <div class="api-method-desc">Pin/unpin messages.</div>
-                <div class="api-method-desc-fa">سنجاق/رفع سنجاق پیام‌ها.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async bulk_action(chat_id, action, user_ids, *, delay=0.5) <span class="ret">-> dict[int, bool]</span></div>
-                <div class="api-method-desc">Bulk ban/unban/mute/unmute. Returns user_id -> success mapping.</div>
-                <div class="api-method-desc-fa">مسدود/رفع مسدود/بی‌صدا/رفع بی‌صدایی دسته‌ای.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">async get_admin_log(chat_id, *, limit=100) <span class="ret">-> list[dict]</span></div>
-                <div class="api-method-desc">Get admin event log.</div>
-                <div class="api-method-desc-fa">دریافت لاگ رویدادهای مدیریتی.</div>
+                <div class="api-method-name">async get_admin_log(chat, *, limit=100) <span class="ret">-> list[dict]</span></div>
             </div>
         </div>
 
-        <!-- ==================== MIRROR ==================== -->
+        <!-- ==================== MIRROR (خلاصه) ==================== -->
         <div class="api-group fi" id="api-mirror">
             <h3 class="api-group-title">MessageMirror</h3>
-            <p style="color:var(--tx-1);margin-bottom:1rem;font-size:.9rem">Real-time message cloning between chats.</p>
             <div class="api-method">
                 <div class="api-method-name">add_route(source, targets, *, strip_forward=True, add_prefix=None) <span class="ret">-> None</span></div>
-                <div class="api-method-desc">Add a mirroring route from source to target chats.</div>
-                <div class="api-method-desc-fa">افزودن مسیر آینه‌سازی از چت مبدأ به چت‌های مقصد.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">add_source(source) / add_target(target) / remove_route(source)</div>
-                <div class="api-method-desc">Build routes incrementally.</div>
-                <div class="api-method-desc-fa">ساخت مسیرها به صورت تدریجی.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">async start() / async stop()</div>
-                <div class="api-method-desc">Start/stop the mirroring engine.</div>
-                <div class="api-method-desc-fa">شروع/توقف موتور آینه‌سازی.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">get_stats() <span class="ret">-> dict</span></div>
-                <div class="api-method-desc">Returns: active, routes, total_mirrored, sources.</div>
-                <div class="api-method-desc-fa">برگرداندن آمار آینه‌سازی.</div>
             </div>
         </div>
 
-        <!-- ==================== SCHEDULER ==================== -->
+        <!-- ==================== SCHEDULER (خلاصه) ==================== -->
         <div class="api-group fi" id="api-scheduler">
             <h3 class="api-group-title">MessageScheduler</h3>
             <div class="api-method">
                 <div class="api-method-name">schedule_message(chat_id, text, *, delay=None, when=None, name=None) <span class="ret">-> ScheduledTask</span></div>
-                <div class="api-method-desc">Schedule a single message after a delay or at a specific time.</div>
-                <div class="api-method-desc-fa">زمان‌بندی یک پیام بعد از تاخیر یا در زمان خاص.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">schedule_interval(chat_id, text, *, interval, name=None) <span class="ret">-> ScheduledTask</span></div>
-                <div class="api-method-desc">Schedule a recurring message at a fixed interval (seconds).</div>
-                <div class="api-method-desc-fa">زمان‌بندی پیام تکراری با فاصله ثابت (ثانیه).</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">schedule_callback(name, callback, *, delay=None, interval=None) <span class="ret">-> ScheduledTask</span></div>
-                <div class="api-method-desc">Schedule a custom callback function.</div>
-                <div class="api-method-desc-fa">زمان‌بندی تابع بازخورد سفارشی.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">cancel(name) <span class="ret">-> bool</span></div>
-                <div class="api-method-desc">Cancel a scheduled task by name.</div>
-                <div class="api-method-desc-fa">لغو وظیفه زمان‌بندی شده با نام.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">async start() / async stop()</div>
-                <div class="api-method-desc">Start/stop the scheduler loop.</div>
-                <div class="api-method-desc-fa">شروع/توقف حلقه زمان‌بند.</div>
-            </div>
-            <div class="api-method">
-                <div class="api-method-name">pending_count (property) <span class="ret">-> int</span></div>
-                <div class="api-method-desc">Number of pending scheduled tasks.</div>
-                <div class="api-method-desc-fa">تعداد وظایف زمان‌بندی شده در انتظار.</div>
             </div>
         </div>
 
-        <!-- ==================== UTILS ==================== -->
+        <!-- ==================== UTILS (خلاصه) ==================== -->
         <div class="api-group fi" id="api-utils">
             <h3 class="api-group-title">Utils</h3>
             <div class="api-method">
                 <div class="api-method-name">LRUCache(max_size=1024, default_ttl=None)</div>
-                <div class="api-method-desc">Thread-safe LRU cache with optional TTL. Methods: get, set, delete, exists, clear, size, get_stats.</div>
-                <div class="api-method-desc-fa">کش LRU سازگار با رشته با TTL اختیاری.</div>
+                <div class="api-method-desc">Thread-safe LRU cache with TTL.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">RateLimiter(default_rate=1.0, default_capacity=1.0)</div>
-                <div class="api-method-desc">Token bucket rate limiter. Methods: acquire, register_flood_wait, limit (decorator), get_wait_time, clear_flood_wait.</div>
-                <div class="api-method-desc-fa">محدودکننده نرخ سطل توکن.</div>
+                <div class="api-method-desc">Token bucket rate limiter.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">ChatLockManager()</div>
-                <div class="api-method-desc">Per-chat locking. Methods: acquire (async ctx mgr), release, is_locked, locked_count, pending_count.</div>
-                <div class="api-method-desc-fa">قفل‌گذاری به ازای هر چت.</div>
+                <div class="api-method-desc">Per-chat locking.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">ProgressTracker(callback=None, update_interval=0.1)</div>
-                <div class="api-method-desc">Track file transfer progress. Methods: update, finish.</div>
-                <div class="api-method-desc-fa">ردیابی پیشرفت انتقال فایل.</div>
+                <div class="api-method-desc">Track file transfer progress.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">batch_send / batch_delete / batch_forward</div>
-                <div class="api-method-desc">Efficient batch operations with configurable delays and chunk sizes.</div>
-                <div class="api-method-desc-fa">عملیات دسته‌ای کارآمد با تاخیر و اندازه دسته تنظیم شده.</div>
+                <div class="api-method-desc">Efficient batch operations.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">setup_logging(level, log_file, log_dir, errors_only=False)</div>
-                <div class="api-method-desc">Configure the logging system. Additional: get_logger, set_level, log, log_event, log_error, log_performance.</div>
-                <div class="api-method-desc-fa">پیکربندی سیستم لاگ.</div>
+                <div class="api-method-desc">Configure logging.</div>
             </div>
             <div class="api-method">
                 <div class="api-method-name">check_for_update() <span class="ret">-> str | None</span></div>
-                <div class="api-method-desc">Check PyPI for newer version. Returns version string or None.</div>
-                <div class="api-method-desc-fa">بررسی PyPI برای نسخه جدیدتر.</div>
+                <div class="api-method-desc">Check PyPI for newer version.</div>
             </div>
         </div>
 
@@ -1238,40 +1162,51 @@
         <div class="api-group fi" id="api-errors">
             <h3 class="api-group-title">Error Hierarchy</h3>
             <div class="api-params"><table>
-                <tr><th>Exception</th><th>Constructor</th><th>Description / توضیحات</th></tr>
-                <tr><td>SplusPyError</td><td>(message)</td><td>Base for all errors / پایه تمام خطاها</td></tr>
-                <tr><td>RPCError</td><td>(message, code=0)</td><td>API errors / خطاهای API</td></tr>
-                <tr><td>FloodWait</td><td>(seconds, message="")</td><td>Flood wait. Has .seconds / انتظار سیلاب</td></tr>
-                <tr><td>Unauthorized</td><td>(message)</td><td>Auth required / نیاز به احراز هویت</td></tr>
-                <tr><td>Forbidden</td><td>(message)</td><td>Permission denied / دسترسی غیرمجاز</td></tr>
-                <tr><td>BadRequest</td><td>(message)</td><td>Bad request / درخواست نادرست</td></tr>
-                <tr><td>ChatNotFound</td><td>(message)</td><td>Chat not found / چت یافت نشد</td></tr>
-                <tr><td>UserNotFound</td><td>(message)</td><td>User not found / کاربر یافت نشد</td></tr>
-                <tr><td>MessageNotFound</td><td>(message)</td><td>Message not found / پیام یافت نشد</td></tr>
-                <tr><td>SessionExpiredError</td><td>(message)</td><td>Session expired / نشست منقضی شده</td></tr>
-                <tr><td>AuthError</td><td>(message)</td><td>Auth failure / خطای احراز هویت</td></tr>
-                <tr><td>JoinChatError</td><td>(message, link="")</td><td>Join failure / خطای پیوستن</td></tr>
-                <tr><td>InvalidInviteLinkError</td><td>(link, reason)</td><td>Invalid link / لینک نامعتبر</td></tr>
-                <tr><td>InviteLinkExpiredError</td><td>(link, reason)</td><td>Expired link / لینک منقضی</td></tr>
-                <tr><td>ChatFullError</td><td>(chat_id, limit)</td><td>Chat is full / چت پر است</td></tr>
-                <tr><td>ChatDeactivatedError</td><td>(chat_id)</td><td>Chat deactivated / چت غیرفعال</td></tr>
-                <tr><td>MembershipRequiredError</td><td>(chat_id, reason)</td><td>Membership needed / نیاز به عضویت</td></tr>
+                <tr><th>Exception</th><th>Description / توضیحات</th></tr>
+                <tr><td>SplusPyError</td><td>Base for all errors</td></tr>
+                <tr><td>RPCError</td><td>API errors (code + message)</td></tr>
+                <tr><td>FloodWaitError</td><td>Flood wait. Has <code>.seconds</code></td></tr>
+                <tr><td>FloodPremiumWaitError</td><td>Premium flood wait</td></tr>
+                <tr><td>SlowModeWaitError</td><td>Slow mode wait</td></tr>
+                <tr><td>UnauthorizedError</td><td>Auth required</td></tr>
+                <tr><td>ForbiddenError</td><td>Permission denied</td></tr>
+                <tr><td>BadRequestError</td><td>Bad request</td></tr>
+                <tr><td>ServerError</td><td>Internal server error</td></tr>
+                <tr><td>TimedOutError</td><td>Timeout</td></tr>
+                <tr><td>InvalidDCError</td><td>Wrong data center</td></tr>
+                <tr><td>AuthKeyDuplicatedError</td><td>Session used from two IPs</td></tr>
+                <tr><td>SessionExpiredError</td><td>Session expired</td></tr>
+                <tr><td>PhoneNumberInvalidError</td><td>Invalid phone</td></tr>
+                <tr><td>PhoneCodeInvalidError</td><td>Invalid code</td></tr>
+                <tr><td>PasswordHashInvalidError</td><td>Invalid password</td></tr>
+                <tr><td>MessageIdInvalidError</td><td>Invalid message ID</td></tr>
+                <tr><td>MessageNotModifiedError</td><td>Message content not changed</td></tr>
+                <tr><td>ChannelPrivateError</td><td>Channel is private</td></tr>
+                <tr><td>UserNotParticipantError</td><td>User not in chat</td></tr>
+                <tr><td>BotMethodInvalidError</td><td>Method not for bots</td></tr>
+                <tr><td>FloodWaitError</td><td>Alias for FloodWait</td></tr>
+                <tr><td>TakeoutInitDelayError</td><td>Takeout requires wait</td></tr>
+                <tr><td>FileReferenceExpiredError</td><td>File reference expired</td></tr>
+                <tr><td>LocationInvalidError</td><td>Invalid file location</td></tr>
+                <tr><td>MediaInvalidError</td><td>Invalid media</td></tr>
+                <tr><td>PhotoInvalidDimensionsError</td><td>Photo dimensions invalid</td></tr>
+                <tr><td>StickerEmojiInvalidError</td><td>Invalid sticker emoji</td></tr>
             </table></div>
         </div>
 
     </div>
 </section>
 
-<!-- CODE EXAMPLES -->
+<!-- ===== CODE EXAMPLES ===== -->
 <section class="sec code-bg" id="quickstart">
     <div class="sec-wrap">
         <div class="sec-hdr fi"><h2>Start in Seconds</h2><p>Get a working Soroush Plus bot in just a few lines.</p><p class="fa">در چند خط کد، یک ربات سروش پلاس بسازید</p></div>
         <div class="code-grid">
             <div class="code-box fi">
                 <div class="code-top"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-label">bot.py</span></div>
-                <div class="code-body"><pre><span class="kw">from</span> spluspy <span class="kw">import</span> Client, filters
+                <div class="code-body"><pre><span class="kw">from</span> spluspy <span class="kw">import</span> SoroushClient, filters
 
-bot = Client(<span class="st">"my_session"</span>)
+bot = SoroushClient(<span class="st">"my_session"</span>)
 
 <span class="dc">@bot.on_message</span>(filters.command(<span class="st">"start"</span>))
 <span class="kw">async def</span> <span class="fn">start_handler</span>(client, message):
@@ -1281,37 +1216,20 @@ bot = Client(<span class="st">"my_session"</span>)
 <span class="kw">async def</span> <span class="fn">echo</span>(client, message):
     <span class="kw">await</span> message.reply(<span class="st">f"You said: </span>{message.text}<span class="st">"</span>)
 
-bot.run()</pre></div>
+bot.run_until_disconnected()</pre></div>
             </div>
             <div class="code-box fi">
-                <div class="code-top"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-label">fsm_example.py</span></div>
-                <div class="code-body"><pre><span class="kw">from</span> spluspy <span class="kw">import</span> Client, filters
-<span class="kw">from</span> spluspy.fsm <span class="kw">import</span> State, StateMachine
-<span class="kw">from</span> spluspy.storage <span class="kw">import</span> SQLiteStorage
-
-bot = Client(<span class="st">"bot"</span>)
-sm = StateMachine(SQLiteStorage(<span class="st">"fsm.db"</span>))
-
-<span class="kw">class</span> <span class="fn">Form</span>:
-    name = State()
-    age = State()
-
-<span class="dc">@sm.state</span>(Form.name)
-<span class="kw">async def</span> <span class="fn">handle_name</span>(ctx, msg):
-    <span class="kw">await</span> ctx.set(name=msg.text)
-    <span class="kw">return</span> StateTransition(to=Form.age)
-
-<span class="dc">@sm.state</span>(Form.age)
-<span class="kw">async def</span> <span class="fn">handle_age</span>(ctx, msg):
-    data = <span class="kw">await</span> ctx.get()
-    <span class="kw">await</span> msg.reply(<span class="st">f"Done: </span>{data}<span class="st">"</span>)
-    <span class="kw">await</span> ctx.finish()</pre></div>
+                <div class="code-top"><div class="code-dots"><span></span><span></span><span></span></div><span class="code-label">conversation.py</span></div>
+                <div class="code-body"><pre><span class="kw">async with</span> bot.conversation(chat_id) <span class="kw">as</span> conv:
+    <span class="kw">await</span> conv.send_message(<span class="st">"What's your name?"</span>)
+    response = <span class="kw">await</span> conv.get_response()
+    <span class="kw">await</span> conv.send_message(<span class="st">f"Nice to meet you, </span>{response.text}<span class="st">!"</span>)</pre></div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- INSTALL -->
+<!-- ===== INSTALL ===== -->
 <section class="sec" id="install">
     <div class="sec-wrap">
         <div class="sec-hdr fi"><h2>Installation</h2><p>Install with the features you need.</p><p class="fa">SplusPy را با قابلیت‌های مورد نیاز نصب کنید</p></div>
@@ -1321,12 +1239,51 @@ sm = StateMachine(SQLiteStorage(<span class="st">"fsm.db"</span>))
             <div class="inst-card fi"><h4>Redis Backend</h4><code>pip install spluspy[redis]</code><p>Shared state storage / ذخیره‌سازی مشترک</p></div>
             <div class="inst-card fi"><h4>PostgreSQL</h4><code>pip install spluspy[postgres]</code><p>Enterprise storage / ذخیره‌سازی سازمانی</p></div>
             <div class="inst-card fi"><h4>All Dependencies</h4><code>pip install spluspy[all]</code><p>Everything included / همه چیز</p></div>
-            <div class="inst-card fi"><h4>Sync Usage</h4><code>from spluspy.sync import Client</code><p>No async needed / بدون async</p></div>
+            <div class="inst-card fi"><h4>Sync Usage</h4><code>from spluspy.sync import SoroushClient</code><p>No async needed / بدون async</p></div>
+            <div class="inst-card fi"><h4>Development Version</h4><code>pip install git+https://github.com/Itskillmaster/spluspy.git</code><p>Latest commits / آخرین تغییرات</p></div>
         </div>
     </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ===== CONTRIBUTING ===== -->
+<section class="sec" id="contributing">
+    <div class="sec-wrap">
+        <div class="sec-hdr fi"><h2>🤝 Contributing</h2><p>We welcome contributions! Read our guidelines.</p><p class="fa">کمک به توسعه‌ی پروژه — خوش‌آمدید!</p></div>
+        <div class="contrib-box fi">
+            <ol>
+                <li>Fork the repo &amp; create a new branch</li>
+                <li>Install dev dependencies: <code>pip install -e .[dev]</code></li>
+                <li>Run tests: <code>pytest</code></li>
+                <li>Submit a Pull Request with clear description</li>
+            </ol>
+            <p style="margin-top:1rem;color:var(--accent-l)">📖 <a href="https://github.com/Itskillmaster/spluspy/blob/main/CONTRIBUTING.md" target="_blank">Full Contributing Guide</a></p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CHANGELOG ===== -->
+<section class="sec" id="changelog">
+    <div class="sec-wrap">
+        <div class="sec-hdr fi"><h2>📦 Changelog</h2><p>Recent updates and improvements.</p><p class="fa">تغییرات اخیر و بهبودها</p></div>
+        <div class="changelog-box fi">
+            <h4 style="color:var(--accent-l)">v2.2.1 (2025-01-15)</h4>
+            <ul>
+                <li>✨ Added <code>Message.media_type</code> property</li>
+                <li>🐛 Fixed auto-reconnect issue on WebSocket</li>
+                <li>📚 Updated API documentation</li>
+                <li>🔧 Improved flood wait handling</li>
+            </ul>
+            <h4 style="color:var(--accent-l);margin-top:1rem">v2.2.0 (2025-01-01)</h4>
+            <ul>
+                <li>🎉 Added <code>Message.reply_photo</code>, <code>reply_video</code>, <code>reply_document</code>, <code>reply_voice</code>, <code>reply_sticker</code>, <code>reply_location</code>, <code>reply_poll</code>, <code>reply_dice</code></li>
+                <li>🐛 Fixed <code>Message.forward</code> property</li>
+                <li>📦 Added SQLite entity cache</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
 <footer class="footer">
     <div style="max-width:600px;margin:0 auto">
         <div style="margin-bottom:1rem"><img src="logo.svg" alt="SplusPy" width="40" height="40" style="border-radius:10px"></div>
@@ -1334,59 +1291,56 @@ sm = StateMachine(SQLiteStorage(<span class="st">"fsm.db"</span>))
             <a href="https://github.com/Itskillmaster/spluspy" target="_blank">GitHub</a>
             <a href="https://pypi.org/project/spluspy/" target="_blank">PyPI</a>
             <a href="https://github.com/Itskillmaster/spluspy/issues" target="_blank">Issues</a>
+            <a href="https://github.com/Itskillmaster/spluspy/discussions" target="_blank">Discussions</a>
             <a href="https://github.com/Itskillmaster/spluspy/blob/main/LICENSE" target="_blank">License</a>
         </div>
-        <p class="footer-copy">Made with &#10084; for the Soroush Plus community<br><a href="https://github.com/Itskillmaster/spluspy/blob/main/LICENSE">MIT License</a> &middot; Ali Mirshekari</p>
+        <p class="footer-copy">Made with ❤️ for the Soroush Plus community<br><a href="https://github.com/Itskillmaster/spluspy/blob/main/LICENSE">MIT License</a> · Ali Mirshekari</p>
     </div>
 </footer>
 
 <script>
-// Theme toggle
-function getTheme() { return localStorage.getItem('spluspy-theme') || 'dark'; }
-function setTheme(t) {
-    document.documentElement.setAttribute('data-theme', t);
-    localStorage.setItem('spluspy-theme', t);
-    document.getElementById('themeBtn').innerHTML = t === 'dark' ? '&#9789;' : '&#9728;';
-}
-function toggleTheme() { setTheme(getTheme() === 'dark' ? 'light' : 'dark'); }
-setTheme(getTheme());
+    function getTheme() { return localStorage.getItem('spluspy-theme') || 'dark'; }
+    function setTheme(t) {
+        document.documentElement.setAttribute('data-theme', t);
+        localStorage.setItem('spluspy-theme', t);
+        document.getElementById('themeBtn').innerHTML = t === 'dark' ? '&#9789;' : '&#9728;';
+    }
+    function toggleTheme() { setTheme(getTheme() === 'dark' ? 'light' : 'dark'); }
+    setTheme(getTheme());
 
-// Navbar scroll
-window.addEventListener('scroll', () => {
-    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
-});
-
-// Copy install command
-function copyCmd() {
-    navigator.clipboard.writeText('pip install spluspy').then(() => {
-        const b = document.querySelector('.hero-cmd .cp');
-        b.innerHTML = '&#10003;';
-        setTimeout(() => { b.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'; }, 2000);
-    });
-}
-
-// Intersection Observer for fade-in
-const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
-}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.fi').forEach(el => obs.observe(el));
-
-// Active nav link
-const apiNav = document.getElementById('apiNav');
-if (apiNav) {
-    const links = apiNav.querySelectorAll('a');
-    const groups = document.querySelectorAll('.api-group');
     window.addEventListener('scroll', () => {
-        let current = '';
-        groups.forEach(g => {
-            if (window.scrollY >= g.offsetTop - 120) current = g.id;
-        });
-        links.forEach(l => {
-            l.classList.toggle('active', l.getAttribute('href') === '#' + current);
-        });
+        document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
     });
-}
-</script>
 
+    function copyCmd() {
+        navigator.clipboard.writeText('pip install spluspy').then(() => {
+            const b = document.querySelector('.hero-cmd .cp');
+            b.innerHTML = '&#10003;';
+            setTimeout(() => {
+                b.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+            }, 2000);
+        });
+    }
+
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+
+    const apiNav = document.getElementById('apiNav');
+    if (apiNav) {
+        const links = apiNav.querySelectorAll('a');
+        const groups = document.querySelectorAll('.api-group');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            groups.forEach(g => {
+                if (window.scrollY >= g.offsetTop - 120) current = g.id;
+            });
+            links.forEach(l => {
+                l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+            });
+        });
+    }
+</script>
 </body>
 </html>
