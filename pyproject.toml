@@ -3,8 +3,8 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.backends._legacy:_Backend"
 
 [project]
-name = "SplusPy"
-version = "2.2.6"
+name = "spluspy"
+version = "2.2.7"
 description = "High-performance Python Self-Bot Framework for Soroush Plus"
 readme = "README.md"
 license = {text = "MIT"}
