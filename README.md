@@ -1,4 +1,4 @@
-# SplusPy v2.2.6
+# SplusPy v2.2.7
 
 **A fast, minimal, and fully-featured self-bot framework**
 
