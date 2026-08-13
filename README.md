@@ -8,7 +8,7 @@
 
 SplusPy is a Python library designed specifically for building **Soroush Plus self-bots** (userbots). It provides a clean, intuitive API for automating your personal Soroush Plus account with ease.
 
-> ⚠️ **Note:** This is a **self-bot framework** — it operates on your personal account, not a bot account. Please adhere to Telegram's Terms of Service.
+> ⚠️ **Note:** This is a **self-bot framework** — it operates on your personal account, not a bot account. Please adhere to Soroush's Terms of Service.
 
 ---
 
