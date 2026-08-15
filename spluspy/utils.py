@@ -58,9 +58,6 @@ USERNAME_RE = re.compile(
 TG_JOIN_RE = re.compile(
     r'tg://(join)\?invite='
 )
-SOROUSH_JOIN_RE = re.compile(
-    r'https?://splus\.ir/joingroup/([a-zA-Z0-9_-]+)'
-)
 
 VALID_USERNAME_RE = re.compile(
     r'^[a-z](?:(?!__)\w){1,30}[a-z\d]$',
@@ -936,11 +933,6 @@ def parse_username(username):
     Returns ``(None, False)`` if the ``username`` or link is not valid.
     """
     username = username.strip()
-    
-    splus_match = SOROUSH_JOIN_RE.match(username)
-    if splus_match:
-        return splus_match.group(1), True
-    
     m = USERNAME_RE.match(username) or TG_JOIN_RE.match(username)
     if m:
         username = username[m.end():]
