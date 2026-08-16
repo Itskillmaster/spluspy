@@ -8,7 +8,7 @@
 <br>
 
 <div align="center">
-  <h1>🚀 SplusPy v2.2.8</h1>
+  <h1>🚀 SplusPy v2.2.9</h1>
   <p><strong>A fast, minimal, and fully-featured self-bot framework</strong></p>
   
   <p>
