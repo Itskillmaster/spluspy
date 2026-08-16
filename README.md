@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/license-MIT-yellow?style=for-the-badge" alt="License">
   <img src="https://img.shields.io/badge/status-stable-brightgreen?style=for-the-badge" alt="Status">
   <br><br>
-  <h2>🚀 SplusPy v2.2.8</h2>
+  <h2>🚀 SplusPy v2.2.9</h2>
   <p><strong>A fast, minimal, and fully-featured self-bot framework</strong></p>
   <p><strong>یک فریم‌ورک سریع، سبک و کامل برای ساخت ربات‌های شخصی</strong></p>
   <br>
