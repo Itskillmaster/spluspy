@@ -239,7 +239,7 @@
 <!-- ===== HERO ===== -->
 <section class="hero">
     <div class="hero-inner">
-        <div class="hero-badge"><span class="badge-dot"></span>v2.2.1 — Stable</div>
+        <div class="hero-badge"><span class="badge-dot"></span>v2.2.11 — Stable</div>
         <h1>Build Soroush Plus Bots<br>with <span class="grad">Python</span></h1>
         <p class="hero-sub">
             A modern, asynchronous Python library for interacting with Soroush Plus — both as a user account and a bot account.
@@ -1266,7 +1266,13 @@ bot.run_until_disconnected()</pre></div>
     <div class="sec-wrap">
         <div class="sec-hdr fi"><h2>📦 Changelog</h2><p>Recent updates and improvements.</p><p class="fa">تغییرات اخیر و بهبودها</p></div>
         <div class="changelog-box fi">
-            <h4 style="color:var(--accent-l)">v2.2.1 (2025-01-15)</h4>
+            <h4 style="color:var(--accent-l)">v2.2.10 (2026-08-25)</h4>
+            <ul>
+                <li>✨ Support plain-callable (lambda) filters in <code>on_message</code> and all event decorators</li>
+                <li>📦 Added <code>Client.leave_all()</code>, <code>Client.get_all_groups()</code>, <code>Client.delete_all_private()</code></li>
+                <li>🐛 Fixed <code>get_chat</code> misuse by adding <code>get_entity</code>-based resolution helpers</li>
+            </ul>
+            <h4 style="color:var(--accent-l);margin-top:1rem">v2.2.1 (2025-01-15)</h4>
             <ul>
                 <li>✨ Added <code>Message.media_type</code> property</li>
                 <li>🐛 Fixed auto-reconnect issue on WebSocket</li>
