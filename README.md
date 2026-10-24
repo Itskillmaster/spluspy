@@ -1,4 +1,4 @@
-# SplusPy v2.2.11
+# SplusPy v2.2.12
 
 
 **A fast, minimal, and fully-featured framework for Soroush Plus — self-bots and official bots**
