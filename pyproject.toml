@@ -1,40 +1,49 @@
 [build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.backends._legacy:_Backend"
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "spluspy"
-version = "2.2.8"
-description = "High-performance Python Self-Bot Framework for Soroush Plus"
+version = "2.2.13"
+description = "Asynchronous Python library for Soroush Plus self-bot and official bot APIs"
 readme = "README.md"
-license = {text = "MIT"}
-requires-python = ">=3.7"
-authors = [
-    {name = "Ali Mirshekari"}
-]
-keywords = ["spluspy", "selfbot", "soroush", "plus", "soroush_plus"]
+requires-python = ">=3.9"
+authors = [{name = "SPlusPy contributors"}]
+keywords = ["soroush-plus", "soroush", "bot", "asyncio", "selfbot"]
 classifiers = [
-    "Development Status :: 5 - Production/Stable",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Topic :: Software Development :: Libraries :: Python Modules",
+  "Development Status :: 4 - Beta",
+  "Framework :: AsyncIO",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Communications :: Chat",
 ]
 dependencies = [
-    "aiohttp",
-    "rsa",
-    "pyaes",
+  "aiohttp>=3.9.0",
+  "pyaes>=1.6.1",
+  "pydantic>=2.0.0",
 ]
 
-[project.urls]
-Homepage = "https://github.com/Itskillmaster/spluspy"
-Repository = "https://github.com/Itskillmaster/spluspy"
+[project.optional-dependencies]
+postgres = ["asyncpg>=0.28.0"]
+redis = ["redis>=5.0.0"]
+dev = ["pytest>=7.4", "pytest-asyncio>=0.21", "ruff>=0.4", "build>=1.2"]
 
 [tool.setuptools.packages.find]
+where = ["."]
 include = ["spluspy*"]
+
+[tool.setuptools.package-data]
+spluspy = ["py.typed"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"

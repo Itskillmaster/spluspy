@@ -1,84 +1,110 @@
-# SplusPy v2.2.12
+# SPlusPy
 
+کتابخانهٔ async پایتون برای کار با سروش‌پلاس؛ شامل دو کلاینت مستقل:
 
-**A fast, minimal, and fully-featured framework for Soroush Plus — self-bots and official bots**
+- **Self-bot**: کار با حساب کاربری از طریق پیاده‌سازی socket/MTProto کتابخانه.
+- **Official Bot**: کار با توکن ربات و HTTP Bot API رسمی.
 
----
+> نکته: قابلیت‌های هر کلاینت تابع API و دسترسی‌های واقعی سرویس است. وجود متد در کتابخانه به‌تنهایی تضمین نمی‌کند که سرور آن عملیات را پشتیبانی کند.
 
-## About
+## نصب
 
-SplusPy is a Python library designed specifically for building **Soroush Plus self-bots** (userbots) and **official bots**. It provides a clean, intuitive API for automating your personal Soroush Plus account or building bots via the official HTTP Bot API.
-
-> ⚠️ **Note:** This framework supports both **self-bot** (personal account) and **official bot** (Bot API) modes. Please adhere to Soroush's Terms of Service.
-
----
-
-## Installation
+Python 3.9 یا بالاتر:
 
 ```bash
-pip install SplusPy
+python -m pip install .
 ```
 
-To upgrade to the latest version:
+برای توسعه و اجرای تست‌ها:
 
 ```bash
-pip install --upgrade Spluspy
+python -m pip install -e ".[dev]"
+python -m pytest
 ```
 
----
+## انتخاب کلاینت
 
-## Quick Start
-
-Here is a minimal example to get your self-bot up and running:
+### 1) سلف‌بات
 
 ```python
-import spluspy
-from spluspy import events
+from spluspy.selfbot import Client, events, filters
 
-client = spluspy.Client("my_session")
+app = Client("my-session")
 
-@client.on_message()
-async def handler(client, event):
-    if event.message.message.lower() == "hello":
-        await event.reply("Hi there!")
+@app.on(events.NewMessage)
+async def on_message(event):
+    if event.raw_text == "سلام":
+        await event.respond("سلام! 👋")
 
-client.start()
-client.run_until_disconnected()
+app.run()
 ```
 
-### How it works
+کلاینت سلف‌بات از `spluspy.client.SoroushClient` استفاده می‌کند. امضای سازنده و روش احراز هویت را با نسخهٔ فعلی سورس و راهنمای مربوط به همان حساب بررسی کنید.
 
-1. **Create a `Client`** — pass a session name (or path) to store your login.
-2. **Register handlers** — use `@client.on_message()` to react to messages.
-3. **Start the client** — call `client.start()` to connect and log in.
-4. **Run forever** — `client.run_until_disconnected()` keeps the bot alive.
-
----
-
-## Official Bot (Robot)
-
-You can also build official bots using the HTTP Bot API:
+### 2) ربات رسمی
 
 ```python
-from spluspy import Robot, filters
+import asyncio
+from spluspy.bot import Bot, filters
 
-bot = Robot("YOUR_BOT_TOKEN")
+bot = Bot("YOUR_BOT_TOKEN")
 
-@bot.on_message(filters.text("hello"))
-async def hello_handler(client, event):
-    await event.reply("Hi there!")
+@bot.on_message(filters.text("/start"))
+async def on_start(client, event):
+    chat_id = getattr(event, "chat_id", None)
+    if chat_id is not None:
+        await client.sendMessage(chat_id, "سلام! ربات آماده است.")
 
-bot.run()
+async def main():
+    await bot.start()
+
+if __name__ == "__main__":
+    asyncio.run(main())
 ```
 
-### How it works
+نمونه‌ها باید متناسب با ساختار updateهای دریافتی و API فعال حساب شما تنظیم شوند؛ توکن را در سورس عمومی یا مخزن Git قرار ندهید.
 
-1. **Create a `Robot`** — pass your bot token.
-2. **Register handlers** — use `@bot.on_message()` just like the self-bot.
-3. **Run** — call `bot.run()` to start long-polling.
+## مسیرهای ایمپورت
 
----
+```python
+# روش قدیمی (برای سازگاری حفظ شده)
+from spluspy import Client, Robot, filters
 
-## License
+# روش روشن‌تر و پیشنهادی
+from spluspy.selfbot import Client
+from spluspy.bot import Bot, BotClient, Robot
+```
 
-MIT License. See [LICENSE](LICENSE) for details.
+`Bot` و `BotClient` نام‌های جایگزین برای کلاس `Robot` هستند؛ کلاس جدید یا کلاینت مستقل جداگانه‌ای ایجاد نمی‌کنند.
+
+## امکانات موجود در سورس
+
+- کلاینت سلف‌بات و متدهای شبکه/پیام‌رسانی
+- کلاینت رسمی HTTP با polling و webhook
+- مدل‌های پیام، کاربر، گروه، فایل و update
+- فیلترها و هندلرهای پیام، callback، inline query و raw update
+- middleware، FSM، سیستم پلاگین، scheduler، AFK و message mirror
+- session storage و ابزارهای رمزنگاری
+
+## رفتار در خطا و اتصال
+
+- برای خطاهای شبکه، سیاست retry و محدودیت نرخ را بررسی کنید؛ همهٔ خطاها قابل retry نیستند.
+- در production، logging را فعال کنید و توکن/کد ورود/اطلاعات سشن را در log چاپ نکنید.
+- برای webhook، HTTPS و مسیر غیرقابل حدس را در زیرساخت خود تنظیم کنید؛ اعتبارسنجی secret token را مطابق امکانات API فعال کنید.
+- sessionها و فایل‌های پایگاه‌داده را محرمانه نگه دارید.
+
+## تست و توسعه
+
+```bash
+python -m compileall -q spluspy
+python -m pytest
+```
+
+تست‌های این مخزن شامل بررسی ساختار، import surface و کامپایل هستند. برای ادعای سازگاری end-to-end باید تست‌های integration با محیط آزمایشی و endpointهای واقعی سروش‌پلاس نیز اجرا شوند.
+
+## مستندات بیشتر
+
+- [معماری و شروع سریع](docs/ARCHITECTURE.md)
+- [راهنمای متدها و API](docs/API_REFERENCE.md)
+- [امنیت و انتشار](docs/DEVELOPMENT.md)
+- [فهرست متدهای استخراج‌شده از سورس](docs/METHODS_CATALOG.md)
